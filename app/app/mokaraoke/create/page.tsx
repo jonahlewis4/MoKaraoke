@@ -3,7 +3,7 @@
 import React, {JSX, ReactNode, useState} from "react";
 import Link from "next/link";
 import Stepper from "@/components/Stepper";
-import {EditorComponent} from "@/components/Editor";
+import {EditorComponent, EditorProps} from "@/components/Editor";
 
 type Step = {
     label : string;
@@ -14,22 +14,22 @@ type Step = {
 const steps: Step[] = [
     {
         label: "1",
-        editor: <div>Editor</div>,
+        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
         preview: <div>Preview</div>
     },
     {
         label: "2",
-        editor: <div>Editor</div>,
+        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
         preview: <div>Preview</div>
     },
     {
         label: "3",
-        editor: <div>Editor</div>,
+        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
         preview: <div>Preview</div>
     },
     {
         label: "4",
-        editor: <div>Editor</div>,
+        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
         preview: <div>Preview</div>
     }
 ] as const
