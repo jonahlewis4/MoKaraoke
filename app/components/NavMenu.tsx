@@ -15,22 +15,42 @@ const NavMenu = () => {
         }`;
     };
 
-    return <nav className="flex items-center justify-between px-8 py-4 border-b border-gray-200">
-        <div className="flex items-center space-x-4">
-            <img src="/favicon.ico" alt="MoKaraoki Logo" className="h-8 w-8" />
-            <span className="font-bold text-lg text-blue-600">MoKaraoki</span>
-        </div>
-        <div className="space-x-6">
-            <Link href="/mokaraoke" className={getLinkClass("/mokaraoke")}>
-                Home
-            </Link>
-            <Link href="/mokaraoke/create" className={getLinkClass("/mokaraoke/create")}>
-                Create
-            </Link>
-            <Link href="/mokaraoke/view" className={getLinkClass("/mokaraoke/view")}>
-                View
-            </Link>
-        </div>
-    </nav>
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (pathname === href) {
+            e.preventDefault();
+        }
+    };
+
+    return (
+        <nav className="flex items-center justify-between px-8 py-4 border-b border-gray-200">
+            <div className="flex items-center space-x-4">
+                <img src="/favicon.ico" alt="MoKaraoki Logo" className="h-8 w-8" />
+                <span className="font-bold text-lg text-blue-600">MoKaraoki</span>
+            </div>
+            <div className="space-x-6">
+                <Link
+                    href="/mokaraoke"
+                    className={getLinkClass("/mokaraoke")}
+                    onClick={(e) => handleClick(e, "/mokaraoke")}
+                >
+                    Home
+                </Link>
+                <Link
+                    href="/mokaraoke/create"
+                    className={getLinkClass("/mokaraoke/create")}
+                    onClick={(e) => handleClick(e, "/mokaraoke/create")}
+                >
+                    Create
+                </Link>
+                <Link
+                    href="/mokaraoke/view"
+                    className={getLinkClass("/mokaraoke/view")}
+                    onClick={(e) => handleClick(e, "/mokaraoke/view")}
+                >
+                    View
+                </Link>
+            </div>
+        </nav>
+    );
 }
 export default NavMenu
