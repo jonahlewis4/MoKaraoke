@@ -6,7 +6,7 @@ import Stepper from "@/components/Stepper";
 import {EditorComponent, EditorProps} from "@/components/EditorDefinitions";
 import {KaraokeRequest} from "../../../../types/KaraokeRequest";
 import {AudioStep} from "@/components/AudioStep";
-import {BackgroundStep} from "../../../../types/BackgroundStep";
+import {BackgroundStep} from "../../../components/BackgroundStep";
 import {TitleStep} from "../../../../types/TitleStep";
 import {UploadStep} from "../../../../types/UploadStep";
 import {ProcessingStep} from "../../../../types/ProcessingStep";
