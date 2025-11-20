@@ -30,8 +30,6 @@ export const AudioStep: Step = {
                 };
                 onSave(updates); // update parent state
             }
-
-
         };
 
         // Handle submit button
