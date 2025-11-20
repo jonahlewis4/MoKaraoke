@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/components/EditorDefinitions";
-import { KaraokeRequest } from "../../types/KaraokeRequest";
+import { KaraokeRequest } from "@/types/KaraokeRequest";
 import {TextHighLightAnimation} from "@/components/TextHighLightAnimation";
 
 export const TitleStep: Step = {

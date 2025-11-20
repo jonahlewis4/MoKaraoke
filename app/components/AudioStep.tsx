@@ -1,6 +1,6 @@
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "./EditorDefinitions";
-import { KaraokeRequest } from "../../types/KaraokeRequest";
+import { KaraokeRequest } from "@/types/KaraokeRequest";
 import React, { useState, ChangeEvent } from "react";
 
 const validTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];

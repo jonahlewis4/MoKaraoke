@@ -2,7 +2,7 @@
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
 import {useEffect, useState} from "react";
-import {KaraokeRequest} from "../../types/KaraokeRequest";
+import {KaraokeRequest} from "@/types/KaraokeRequest";
 
 export const UploadStep: Step = {
     label: "Upload",

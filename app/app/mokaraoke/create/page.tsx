@@ -4,11 +4,12 @@ import React, {ComponentType, JSX, useState} from "react";
 import Link from "next/link";
 import Stepper from "@/components/Stepper";
 import {EditorComponent} from "@/components/EditorDefinitions";
-import {KaraokeRequest} from "../../../../types/KaraokeRequest";
+import {KaraokeRequest} from "@/types/KaraokeRequest";
 import {AudioStep} from "@/components/AudioStep";
 import {BackgroundStep} from "@/components/BackgroundStep";
 import {TitleStep} from "@/components/TitleStep";
 import {UploadStep} from "@/components/UploadStep";
+import {ProcessingStep} from "@/components/ProcessingStep";
 
 
 export type Step = {
@@ -21,6 +22,7 @@ const steps: Step[] = [
     AudioStep,
     BackgroundStep,
     TitleStep,
+    ProcessingStep,
     UploadStep,
 ] as const
 
@@ -49,6 +51,7 @@ export default function CreateVideoLayout(): JSX.Element {
                 {/* Left panel (dynamic content) */}
                 <section className="bg-white p-6 rounded-xl shadow">
                     <Editor
+                        request = {karaokiRequest}
                         onSave = {(updates : Partial<KaraokeRequest>) => {
                             setKaraokiRequest((prev) => ({ ...prev, ...updates }))}}
                         onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
