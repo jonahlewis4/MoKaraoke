@@ -39,8 +39,7 @@ export default function CreateVideoLayout(): JSX.Element {
     const Preview = steps[currentStep].preview;
     console.log(karaokiRequest)
     return (
-        <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center
-        ">
+        <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
             {/* Header */}
             {<Header/>}
 
