@@ -1,14 +1,18 @@
-const activities = [
-    { id: 1, user: 'John Doe', action: 'created a new lead', time: '2 mins ago' },
-    { id: 2, user: 'Jane Smith', action: 'viewed the dashboard', time: '10 mins ago' },
-    { id: 3, user: 'Alice Johnson', action: 'scheduled a demo', time: '1 hour ago' },
-];
+const getRandomUser = () => {
+    return "John Doe";
+}
+const getRandomAction = () => {
+    return "some action";
+}
+const getRandomTime = () => {
+    return "time";
+}
 
 const nRandomActivities = (count: number) => Array.from({length: count}, (_, idx) => ({
         id: idx,
-        user: "John Doe",
-        action: "some action",
-        time: "time",
+        user: getRandomUser(),
+        action: getRandomAction(),
+        time: getRandomTime(),
     })
 )
 const ActivityFeed = () => {
