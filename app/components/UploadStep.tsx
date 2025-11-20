@@ -3,10 +3,11 @@ import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
 import {useEffect, useState} from "react";
 import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
+import {TitleStep} from "@/components/TitleStep";
 
 export const UploadStep: Step = {
     label: "Upload",
-    editor: ({ onSave }: EditorProps) => {
+    editor: ({ onSave, onNext, request}: EditorProps) => {
         const [progress, setProgress] = useState(0);
         const [done, setDone] = useState(false);
 
@@ -27,20 +28,27 @@ export const UploadStep: Step = {
 
         return (
             <div>
-                <p className="mb-2">Processing & uploading your video...</p>
-                <div className="w-full bg-gray-200 rounded h-4">
-                    <div
-                        className="bg-blue-600 h-4 rounded"
-                        style={{ width: `${progress}%` }}
-                    ></div>
+                <TitleStep.editor
+                    onSave = {onSave}
+                    onNext = {onNext}
+                    request = {request}
+                />
+                <div>
+                    <p className="mb-2">Processing & uploading your video...</p>
+                    <div className="w-full bg-gray-200 rounded h-4">
+                        <div
+                            className="bg-blue-600 h-4 rounded"
+                            style={{ width: `${progress}%` }}
+                        ></div>
+                    </div>
+                    {done && (
+                        <button
+                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
+                        >
+                            Upload to Youtube
+                        </button>
+                    )}
                 </div>
-                {done && (
-                    <button
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-                    >
-                        Upload to Youtube
-                    </button>
-                )}
             </div>
         );
     },
@@ -55,11 +63,13 @@ export const UploadStep: Step = {
         }
 
         return (
-            <video
-                src={request.uploadRequest.generatedVideoPath}
-                controls
-                className="w-full rounded shadow"
-            />
+            <>
+                <TitleStep.preview
+                    request={request}
+                />
+
+            </>
+
         );
     },
 };

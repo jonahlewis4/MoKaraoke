@@ -1,10 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-import { Step } from "@/app/mokaraoke/create/page";
-import { EditorProps } from "@/components/EditorDefinitions";
-import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
+import React, {useState} from "react";
+import {Step} from "@/app/mokaraoke/create/page";
+import {EditorProps} from "@/components/EditorDefinitions";
+import {KaraokeLifetime} from "@/types/KaraokeRequest";
 import {TextHighLightAnimation} from "@/components/TextHighLightAnimation";
+import {LyricWrapper} from "@/components/LyricWrapper";
 
 export const TitleStep: Step = {
     label: "Title & Description",
@@ -63,23 +64,11 @@ export const TitleStep: Step = {
     },
 
     preview: ({ request }: { request: KaraokeLifetime }) => {
-        const lyrics = "Your lyrics here".split(" "); // split into words for highlighting
+        const lyrics = "Your lyrics here"; // split into words for highlighting
 
         return (
             <div className="max-w-sm border rounded overflow-hidden shadow-lg">
-                {/* YouTube thumbnail */}
-                <div className="relative w-full h-48 bg-gray-300 flex items-end justify-start">
-                    {request.generationRequest.backgroundPath ? (
-                        <img
-                            src={request.generationRequest.backgroundPath}
-                            alt="Thumbnail"
-                            className="absolute inset-0 w-full h-full object-cover"
-                        />
-                    ) : null}
-
-                    {/* Karaoke lyrics overlay */}
-                    <TextHighLightAnimation lyrics={"Your lyrics will appear here"}/>
-                </div>
+                <video src={request.uploadRequest.generatedVideoPath} controls className="w-full h-48 object-cover"/>
 
                 {/* Video info */}
                 <div className="p-4">

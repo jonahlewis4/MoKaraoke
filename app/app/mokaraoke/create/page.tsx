@@ -21,7 +21,6 @@ export type Step = {
 const steps: Step[] = [
     AudioStep,
     BackgroundStep,
-    TitleStep,
     ProcessingStep,
     UploadStep,
 ] as const
