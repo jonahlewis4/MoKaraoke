@@ -7,7 +7,7 @@ import {EditorComponent, EditorProps} from "@/components/EditorDefinitions";
 import {KaraokeRequest} from "../../../../types/KaraokeRequest";
 import {AudioStep} from "@/components/AudioStep";
 import {BackgroundStep} from "../../../components/BackgroundStep";
-import {TitleStep} from "../../../../types/TitleStep";
+import {TitleStep} from "../../../components/TitleStep";
 import {UploadStep} from "../../../../types/UploadStep";
 import {ProcessingStep} from "../../../../types/ProcessingStep";
 
