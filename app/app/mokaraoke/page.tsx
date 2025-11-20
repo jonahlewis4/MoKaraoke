@@ -17,10 +17,10 @@ export default function Home() {
                     <span className="font-bold text-lg text-blue-600">MoFlo</span>
                 </div>
                 <div className="space-x-6">
-                    <Link href="/create" className="text-blue-600 font-semibold hover:underline">
+                    <Link href="/mokaraoke/create" className="text-blue-600 font-semibold hover:underline">
                         Create
                     </Link>
-                    <Link href="/view" className="text-gray-700 hover:text-blue-600 font-semibold">
+                    <Link href="/mokaraoke/view" className="text-gray-700 hover:text-blue-600 font-semibold">
                         View
                     </Link>
                 </div>
