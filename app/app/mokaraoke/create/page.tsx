@@ -1,43 +1,37 @@
 "use client";
 
-import React, {JSX, ReactNode, useState} from "react";
+import React, {Component, ComponentType, JSX, ReactNode, useState} from "react";
 import Link from "next/link";
 import Stepper from "@/components/Stepper";
-import {EditorComponent, EditorProps} from "@/components/Editor";
+import {EditorComponent, EditorProps} from "@/components/EditorDefinitions";
+import {KaraokeRequest} from "../../../../types/KaraokeRequest";
+import {bgStep} from "../../../../types/BackgroundStep";
 
-type Step = {
+export type Step = {
     label : string;
     editor: EditorComponent;
-    preview: ReactNode;
+    preview: ComponentType;
 }
 
 const steps: Step[] = [
-    {
-        label: "1",
-        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
-        preview: <div>Preview</div>
-    },
-    {
-        label: "2",
-        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
-        preview: <div>Preview</div>
-    },
-    {
-        label: "3",
-        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
-        preview: <div>Preview</div>
-    },
-    {
-        label: "4",
-        editor: ({onSubmit} : EditorProps) => <div onClick={onSubmit}>Editor</div>,
-        preview: <div>Preview</div>
-    }
+    bgStep,
+    bgStep,
+    bgStep,
+    bgStep,
+    bgStep,
 ] as const
 
 
 export default function CreateVideoLayout(): JSX.Element {
     const [currentStep, setCurrentStep] = useState(0)
+    const [karaokiRequest, setKaraokiRequest] = useState<KaraokeRequest>({
+        title: "",
+        description: "",
+        audioPath: "",
+        backgroundPath: ""
+    });
     const Editor = steps[currentStep].editor;
+    const Preview = steps[currentStep].preview;
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center
         ">
@@ -57,7 +51,7 @@ export default function CreateVideoLayout(): JSX.Element {
                 {/* Right panel (preview) */}
                 <aside className="bg-white p-6 rounded-xl shadow">
                     <h2 className="text-lg font-semibold mb-4">Preview</h2>
-                    {steps[currentStep].preview}
+                   <Preview/>
                 </aside>
             </div>
         </div>
