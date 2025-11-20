@@ -3,7 +3,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/components/EditorDefinitions";
-import { KaraokeRequest } from "../../types/KaraokeRequest";
+import { KaraokeRequest } from "@/types/KaraokeRequest";
 
 export const BackgroundStep: Step = {
     label: "Background",
