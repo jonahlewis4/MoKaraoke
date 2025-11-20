@@ -2,7 +2,7 @@
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
 import {useEffect, useState} from "react";
-import {KaraokeRequest} from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 import {createKaraokiVideo} from "@/clientHttp/CreateKaraokiVideo";
 
 export const ProcessingStep: Step = {
@@ -34,8 +34,10 @@ export const ProcessingStep: Step = {
         }
 
         const keepResult = (newVideoUrl : string) => {
-            const updatedRequest : Partial<KaraokeRequest> = {
-                generatedVideoPath: newVideoUrl,
+            const updatedRequest : PartialKaraokeLifetime = {
+                uploadRequest: {
+                    generatedVideoPath: newVideoUrl
+                }
             }
 
             setThisIsTheFirstAttempt(false);
@@ -108,8 +110,8 @@ export const ProcessingStep: Step = {
             </div>
         );
     },
-    preview: ({ request }: { request: KaraokeRequest }) => {
-        return request.generatedVideoPath && <video src={request.generatedVideoPath} controls className="w-full rounded"/>
+    preview: ({ request }: { request: KaraokeLifetime }) => {
+        return request.uploadRequest.generatedVideoPath && <video src={request.uploadRequest.generatedVideoPath} controls className="w-full rounded"/>
     },
 };
 

@@ -43,7 +43,9 @@ export const TitleStep: Step = {
                     value={description}
                     onChange={(e) => {
                             setDescription(e.target.value)
-                            onSave({description: e.target.value})
+                        onSave({
+                                uploadRequest: {description: e.target.value},
+                            })
                         }
                     }
                     className="border p-2 rounded w-full"

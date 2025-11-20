@@ -19,5 +19,6 @@ export type KaraokeLifetime = {
 export type PartialKaraokeLifetime = Partial<({
     generationRequest: Partial<GenerationRequest>;
     uploadRequest: Partial<UploadRequest>;
+    youtubePath: string;
 })>;
 

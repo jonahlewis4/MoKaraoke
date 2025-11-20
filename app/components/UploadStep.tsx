@@ -2,7 +2,7 @@
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
 import {useEffect, useState} from "react";
-import {KaraokeRequest} from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 
 export const UploadStep: Step = {
     label: "Upload",
@@ -44,8 +44,8 @@ export const UploadStep: Step = {
             </div>
         );
     },
-    preview: ({ request }: { request: KaraokeRequest }) => {
-        if (!request.generatedVideoPath) {
+    preview: ({ request }: { request: KaraokeLifetime }) => {
+        if (!request.uploadRequest.generatedVideoPath) {
             // Placeholder while processing
             return (
                 <div className="h-48 flex items-center justify-center text-gray-500">
@@ -56,7 +56,7 @@ export const UploadStep: Step = {
 
         return (
             <video
-                src={request.generatedVideoPath}
+                src={request.uploadRequest.generatedVideoPath}
                 controls
                 className="w-full rounded shadow"
             />
