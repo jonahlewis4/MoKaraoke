@@ -1,8 +1,80 @@
+"use client";
 
-export default function Home() {
+import React, {Component, ComponentType, JSX, ReactNode, useState} from "react";
+import Link from "next/link";
+import Stepper from "@/components/Stepper";
+import {EditorComponent, EditorProps} from "@/components/EditorDefinitions";
+import {KaraokeRequest} from "../../../../types/KaraokeRequest";
+import {AudioStep} from "../../../../types/AudioStep";
+import {BackgroundStep} from "../../../../types/BackgroundStep";
+import {TitleStep} from "../../../../types/TitleStep";
+import {UploadStep} from "../../../../types/UploadStep";
+import {ProcessingStep} from "../../../../types/ProcessingStep";
+
+
+export type Step = {
+    label : string;
+    editor: EditorComponent;
+    preview: ComponentType;
+}
+
+const steps: Step[] = [
+    AudioStep,
+    BackgroundStep,
+    TitleStep,
+    ProcessingStep,
+    UploadStep,
+] as const
+
+
+export default function CreateVideoLayout(): JSX.Element {
+    const [currentStep, setCurrentStep] = useState(0)
+    const [karaokiRequest, setKaraokiRequest] = useState<KaraokeRequest>({
+        title: "",
+        description: "",
+        audioPath: "",
+        backgroundPath: ""
+    });
+    const Editor = steps[currentStep].editor;
+    const Preview = steps[currentStep].preview;
+    console.log(karaokiRequest)
     return (
-        <>
-            create
-        </>
+        <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
+            {/* Header */}
+            {<Header/>}
+
+            {/* Stepper */}
+            <Stepper stepLabels={steps.map(step => step.label)} currentStep={currentStep}/>
+
+            {/* Main Layout */}
+            <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
+                {/* Left panel (dynamic content) */}
+                <section className="bg-white p-6 rounded-xl shadow">
+                    <Editor
+                        onSave = {(updates : Partial<KaraokeRequest>) => {
+                            setKaraokiRequest((prev) => ({ ...prev, ...updates }))}}
+                        onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
+
+                    />
+                </section>
+
+                {/* Right panel (preview) */}
+                <aside className="bg-white p-6 rounded-xl shadow">
+                    <h2 className="text-lg font-semibold mb-4">Preview</h2>
+                   <Preview/>
+                </aside>
+            </div>
+        </div>
     );
+}
+
+function Header() : JSX.Element {
+    return <div className="text-center mb-6">
+        <h1 className="text-3xl font-bold">Create Karaoki Video</h1>
+        <Link href="https://moflo.ai/help" className="text-blue-500 text-sm hover:underline"
+              target="_blank" rel="noopener noreferrer"
+        >
+            Need Help?
+        </Link>
+    </div>;
 }
