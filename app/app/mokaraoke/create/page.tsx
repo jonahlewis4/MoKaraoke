@@ -4,7 +4,7 @@ import React, {ComponentType, JSX, useState} from "react";
 import Link from "next/link";
 import Stepper from "@/components/Stepper";
 import {EditorComponent} from "@/components/EditorDefinitions";
-import {KaraokeRequest} from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 import {AudioStep} from "@/components/AudioStep";
 import {BackgroundStep} from "@/components/BackgroundStep";
 import {TitleStep} from "@/components/TitleStep";
@@ -15,7 +15,7 @@ import {ProcessingStep} from "@/components/ProcessingStep";
 export type Step = {
     label : string;
     editor: EditorComponent;
-    preview: ComponentType<{request : KaraokeRequest}>;
+    preview: ComponentType<{request : KaraokeLifetime}>;
 }
 
 const steps: Step[] = [
@@ -29,11 +29,17 @@ const steps: Step[] = [
 
 export default function CreateVideoLayout(): JSX.Element {
     const [currentStep, setCurrentStep] = useState(0)
-    const [karaokiRequest, setKaraokiRequest] = useState<KaraokeRequest>({
-        title: "",
-        description: "",
-        audioPath: "",
-        backgroundPath: ""
+    const [karaokiRequest, setKaraokiRequest] = useState<KaraokeLifetime>({
+        generationRequest: {
+            audioPath: "",
+            backgroundPath: ""
+        },
+        uploadRequest: {
+            title: "",
+            description: "",
+            generatedVideoPath: ""
+        },
+        youtubePath: "",
     });
     const Editor = steps[currentStep].editor;
     const Preview = steps[currentStep].preview;
@@ -52,8 +58,18 @@ export default function CreateVideoLayout(): JSX.Element {
                 <section className="bg-white p-6 rounded-xl shadow">
                     <Editor
                         request = {karaokiRequest}
-                        onSave = {(updates : Partial<KaraokeRequest>) => {
-                            setKaraokiRequest((prev) => ({ ...prev, ...updates }))}}
+                        onSave = {(updates : PartialKaraokeLifetime) => {
+                            setKaraokiRequest((prev) => ({
+                                ...prev,
+                                generationRequest: {
+                                    ...prev.generationRequest,
+                                    ...updates.generationRequest,
+                                },
+                                uploadRequest: {
+                                    ...prev.uploadRequest,
+                                    ...updates.uploadRequest,
+                                }
+                            }))}}
                         onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
 
                     />

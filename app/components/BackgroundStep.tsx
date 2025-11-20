@@ -3,7 +3,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/components/EditorDefinitions";
-import { KaraokeRequest } from "@/types/KaraokeRequest";
+import { KaraokeLifetime } from "@/types/KaraokeRequest";
 
 export const BackgroundStep: Step = {
     label: "Background",
@@ -36,7 +36,9 @@ export const BackgroundStep: Step = {
 
             // Save the updates to parent
             onSave({
-                backgroundPath: url, // or eventually uploaded path
+                generationRequest: {
+                    backgroundPath: url
+                }
             });
         };
 
@@ -68,12 +70,13 @@ export const BackgroundStep: Step = {
         );
     },
 
-    preview: ({request}: { request : KaraokeRequest }) => {
-        if (!request.backgroundPath) return <p>No background selected yet</p>;
+    preview: ({request}: { request : KaraokeLifetime }) => {
+        const bgPath = request.generationRequest.backgroundPath;
+        if (!bgPath) return <p>No background selected yet</p>;
         return (
             <div className="flex justify-center">
                 <img
-                    src={request.backgroundPath}
+                    src={bgPath}
                     alt="Background preview"
                     className="max-w-full max-h-64 object-contain rounded"
                 />

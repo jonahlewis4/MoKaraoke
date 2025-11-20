@@ -1,8 +1,23 @@
-export type KaraokeRequest = {
-    title: string;
-    description: string;
+
+
+export type GenerationRequest = {
     audioPath: string;
     backgroundPath: string;
-    generatedVideoPath?: string;
-    youtubePath?: string;
 }
+export type UploadRequest = {
+    title: string;
+    description: string;
+    generatedVideoPath: string;
+}
+
+export type KaraokeLifetime = {
+    generationRequest: GenerationRequest;
+    uploadRequest: UploadRequest;
+    youtubePath: string;
+}
+
+export type PartialKaraokeLifetime = Partial<({
+    generationRequest: Partial<GenerationRequest>;
+    uploadRequest: Partial<UploadRequest>;
+})>;
+

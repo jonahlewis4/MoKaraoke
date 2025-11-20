@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/components/EditorDefinitions";
-import { KaraokeRequest } from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 import {TextHighLightAnimation} from "@/components/TextHighLightAnimation";
 
 export const TitleStep: Step = {
@@ -30,7 +30,9 @@ export const TitleStep: Step = {
                     value={title}
                     onChange={(e) => {
                             setTitle(e.target.value)
-                            onSave({title: e.target.value})
+                            onSave({
+                                uploadRequest: {title: e.target.value},
+                            })
                         }
                     }
                     className="border p-2 rounded w-full"
@@ -58,16 +60,16 @@ export const TitleStep: Step = {
         );
     },
 
-    preview: ({ request }: { request: KaraokeRequest }) => {
+    preview: ({ request }: { request: KaraokeLifetime }) => {
         const lyrics = "Your lyrics here".split(" "); // split into words for highlighting
 
         return (
             <div className="max-w-sm border rounded overflow-hidden shadow-lg">
                 {/* YouTube thumbnail */}
                 <div className="relative w-full h-48 bg-gray-300 flex items-end justify-start">
-                    {request.backgroundPath ? (
+                    {request.generationRequest.backgroundPath ? (
                         <img
-                            src={request.backgroundPath}
+                            src={request.generationRequest.backgroundPath}
                             alt="Thumbnail"
                             className="absolute inset-0 w-full h-full object-cover"
                         />
@@ -79,9 +81,9 @@ export const TitleStep: Step = {
 
                 {/* Video info */}
                 <div className="p-4">
-                    <h3 className="font-bold text-lg">{request.title || "Title goes here"}</h3>
+                    <h3 className="font-bold text-lg">{request.uploadRequest.title || "Title goes here"}</h3>
                     <p className="text-gray-700 text-sm">
-                        {request.description || "Description goes here"}
+                        {request.uploadRequest.description || "Description goes here"}
                     </p>
                 </div>
             </div>
