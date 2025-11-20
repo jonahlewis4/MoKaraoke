@@ -74,7 +74,9 @@ const nRandomVideoActivities = (count: number) =>
 
 const ActivityFeed = () => {
 
-    const numActivities = 3;
+    //TODO future idea: add the platform
+    //TODO future idea: allow click to open video
+    const numActivities = 5;
     return <main className="max-w-4xl mx-auto px-8 py-10">
         <h1 className="text-3xl font-extrabold text-blue-700 mb-8">Activity Feed</h1>
 
