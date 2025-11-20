@@ -3,6 +3,9 @@ import { EditorProps } from "./EditorDefinitions";
 import { KaraokeRequest } from "../../types/KaraokeRequest";
 import React, { useState, ChangeEvent } from "react";
 
+const validTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];
+
+
 export const AudioStep: Step = {
     label: "Audio",
     editor: ({ onNext, onSave }: EditorProps) => {
@@ -12,6 +15,12 @@ export const AudioStep: Step = {
         const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (e.target.files && e.target.files.length > 0) {
                 const newFileUrl = URL.createObjectURL(e.target.files[0]);
+
+                if(!validTypes.includes(e.target.files[0].type)){
+                    alert("Invalid file type. Please upload an audio file (mp3, wav, mpeg).")
+                    return;
+                }
+
                 setUrl(newFileUrl);
                 setFileName(e.target.files[0].name);
                 // Update the parent with the uploaded file path
