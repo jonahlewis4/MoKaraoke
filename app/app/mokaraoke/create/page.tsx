@@ -39,7 +39,8 @@ export default function CreateVideoLayout(): JSX.Element {
     const [currentStep, setCurrentStep] = useState(0)
     const Editor = steps[currentStep].editor;
     return (
-        <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
+        <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center
+        ">
             {/* Header */}
             {<Header/>}
 
