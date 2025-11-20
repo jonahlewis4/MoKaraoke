@@ -15,13 +15,8 @@ const steps: string[] = [
     "Post"
 ] as const;
 
-export interface CreatePostLayoutProps {
-    step: number;          // 0–3
-    children: ReactNode;   // left panel
-    preview: ReactNode;    // right preview
-}
 
-export default function CreateVideoLayout(props: CreatePostLayoutProps): JSX.Element {
+export default function CreateVideoLayout(): JSX.Element {
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
             {/* Header */}
@@ -41,13 +36,13 @@ export default function CreateVideoLayout(props: CreatePostLayoutProps): JSX.Ele
             <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
                 {/* Left panel (dynamic content) */}
                 <section className="bg-white p-6 rounded-xl shadow">
-                    {props.children}
+                    {/*{props.children}*/}
                 </section>
 
                 {/* Right panel (preview) */}
                 <aside className="bg-white p-6 rounded-xl shadow">
                     <h2 className="text-lg font-semibold mb-4">Preview</h2>
-                    {props.preview}
+                    {/*{props.preview}*/}
                 </aside>
             </div>
         </div>
