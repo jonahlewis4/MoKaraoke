@@ -5,7 +5,7 @@ import Link from "next/link";
 import Stepper from "@/components/Stepper";
 import {EditorComponent, EditorProps} from "@/components/EditorDefinitions";
 import {KaraokeRequest} from "../../../../types/KaraokeRequest";
-import {AudioStep} from "../../../../types/AudioStep";
+import {AudioStep} from "@/components/AudioStep";
 import {BackgroundStep} from "../../../../types/BackgroundStep";
 import {TitleStep} from "../../../../types/TitleStep";
 import {UploadStep} from "../../../../types/UploadStep";
@@ -15,7 +15,7 @@ import {ProcessingStep} from "../../../../types/ProcessingStep";
 export type Step = {
     label : string;
     editor: EditorComponent;
-    preview: ComponentType;
+    preview: ComponentType<{request : KaraokeRequest}>;
 }
 
 const steps: Step[] = [
@@ -61,7 +61,7 @@ export default function CreateVideoLayout(): JSX.Element {
                 {/* Right panel (preview) */}
                 <aside className="bg-white p-6 rounded-xl shadow">
                     <h2 className="text-lg font-semibold mb-4">Preview</h2>
-                   <Preview/>
+                   <Preview request = {karaokiRequest}/>
                 </aside>
             </div>
         </div>
