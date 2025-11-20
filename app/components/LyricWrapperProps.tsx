@@ -1,13 +1,13 @@
 import React, {ReactNode} from "react";
 import TextHighLightAnimation from "@/components/TextHighLightAnimation";
 
-export type LyricWrapper = {
+export type LyricWrapperProps = {
     lyrics: string;
     children: ReactNode; // child content (video, image, etc.)
     className?: string;  // optional extra styling
 };
 
-export const LyricsAtBottom: React.FC<LyricWrapper> = ({
+export const LyricWrapper: React.FC<LyricWrapperProps> = ({
                                                     lyrics,
                                                     children,
                                                     className = "",

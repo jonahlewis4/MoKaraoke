@@ -4,7 +4,7 @@ import React, { useState, ChangeEvent } from "react";
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/components/EditorDefinitions";
 import { KaraokeLifetime } from "@/types/KaraokeRequest";
-import {LyricsAtBottom} from "@/components/LyricWrapper";
+import {LyricWrapper} from "@/components/LyricWrapperProps";
 
 export const BackgroundStep: Step = {
     label: "Background",
@@ -77,14 +77,14 @@ export const BackgroundStep: Step = {
         const lyrics = "Your lyrics will appear here";
         return (
             <div className="flex justify-center">
-                <LyricsAtBottom lyrics={lyrics}>
+                <LyricWrapper lyrics={lyrics}>
                     {request.generationRequest.backgroundPath ? (
                         <img
                             src={request.generationRequest.backgroundPath}
                             className="rounded shadow w-full h-full object-cover"
                          alt={"preview image"}/>
                     ) : null}
-                </LyricsAtBottom>
+                </LyricWrapper>
             </div>
         );
     },

@@ -1,75 +1,61 @@
 "use client"
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 import {TitleStep} from "@/components/TitleStep";
 
 export const UploadStep: Step = {
     label: "Upload",
-    editor: ({ onSave, onNext, request}: EditorProps) => {
-        const [progress, setProgress] = useState(0);
-        const [done, setDone] = useState(false);
-
-        useEffect(() => {
-            // Simulate processing/upload
-            const interval = setInterval(() => {
-                setProgress((prev) => {
-                    if (prev >= 100) {
-                        clearInterval(interval);
-                        setDone(true);
-                        return 100;
-                    }
-                    return prev + 10;
-                });
-            }, 300); // every 0.3s increase progress
-            return () => clearInterval(interval);
-        }, []);
+    editor: ({ onSave }: EditorProps) => {
+        const [title, setTitle] = useState("");
+        const [description, setDescription] = useState("");
 
         return (
-            <div>
-                <TitleStep.editor
-                    onSave = {onSave}
-                    onNext = {onNext}
-                    request = {request}
+            <div className="flex flex-col space-y-4">
+                <label className="font-medium">Video Title</label>
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => {
+                        setTitle(e.target.value)
+                        onSave({
+                            uploadRequest: {title: e.target.value},
+                        })
+                    }
+                    }
+                    className="border p-2 rounded w-full"
                 />
-                <div>
-                    <p className="mb-2">Processing & uploading your video...</p>
-                    <div className="w-full bg-gray-200 rounded h-4">
-                        <div
-                            className="bg-blue-600 h-4 rounded"
-                            style={{ width: `${progress}%` }}
-                        ></div>
-                    </div>
-                    {done && (
-                        <button
-                            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-                        >
-                            Upload to Youtube
-                        </button>
-                    )}
-                </div>
+
+                <label className="font-medium">Video Description</label>
+                <textarea
+                    value={description}
+                    onChange={(e) => {
+                        setDescription(e.target.value)
+                        onSave({
+                            uploadRequest: {description: e.target.value},
+                        })
+                    }
+                    }
+                    className="border p-2 rounded w-full"
+                    rows={4}
+                />
             </div>
         );
     },
     preview: ({ request }: { request: KaraokeLifetime }) => {
-        if (!request.uploadRequest.generatedVideoPath) {
-            // Placeholder while processing
-            return (
-                <div className="h-48 flex items-center justify-center text-gray-500">
-                    Video preview will appear here
-                </div>
-            );
-        }
-
         return (
-            <>
-                <TitleStep.preview
-                    request={request}
-                />
+            <div className="max-w-sm border rounded overflow-hidden shadow-lg">
+                <video src={request.uploadRequest.generatedVideoPath} controls className="w-full h-48 object-cover"/>
 
-            </>
-
-        );
-    },
+                {/* Video info */}
+                <div className="p-4">
+                    <h3 className="font-bold text-lg">{request.uploadRequest.title || "Title goes here"}</h3>
+                    <p className="text-gray-700 text-sm">
+                        {request.uploadRequest.description || "Description goes here"}
+                    </p>
+                </div>
+            </div>
+        )
+    }
 };
