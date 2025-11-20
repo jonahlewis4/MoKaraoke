@@ -3,8 +3,8 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Title",
-  description: "Description",
+  title: "MoKaraoki",
+  description: "A site to help you create and share your karaoke music videos",
 };
 
 export default function RootLayout({
