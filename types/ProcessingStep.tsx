@@ -3,11 +3,11 @@ import {EditorProps} from "../app/components/EditorDefinitions";
 import {KaraokeRequest} from "./KaraokeRequest";
 
 
-export const BackgroundStep : Step = {
-    label: "Background",
+export const ProcessingStep : Step = {
+    label: "Processing",
     editor: ({onNext, onSave} : EditorProps) => {
         let updates : Partial<KaraokeRequest> = {
-            backgroundPath: "backgroundPath",
+            generatedVideoPath: "some generated video path",
         }
         return <div onClick={() => {
             onNext();

@@ -3,14 +3,13 @@ import {EditorProps} from "../app/components/EditorDefinitions";
 import {KaraokeRequest} from "./KaraokeRequest";
 
 
-export const BackgroundStep : Step = {
-    label: "Background",
-    editor: ({onNext, onSave} : EditorProps) => {
+export const UploadStep : Step = {
+    label: "Upload",
+    editor: ({onSave} : EditorProps) => {
         let updates : Partial<KaraokeRequest> = {
-            backgroundPath: "backgroundPath",
+            youtubePath: "some youtube path",
         }
         return <div onClick={() => {
-            onNext();
             onSave(updates);
         }}>editor</div>
     },

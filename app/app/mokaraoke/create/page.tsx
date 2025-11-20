@@ -5,7 +5,12 @@ import Link from "next/link";
 import Stepper from "@/components/Stepper";
 import {EditorComponent, EditorProps} from "@/components/EditorDefinitions";
 import {KaraokeRequest} from "../../../../types/KaraokeRequest";
-import {bgStep} from "../../../../types/BackgroundStep";
+import {AudioStep} from "../../../../types/AudioStep";
+import {BackgroundStep} from "../../../../types/BackgroundStep";
+import {TitleStep} from "../../../../types/TitleStep";
+import {UploadStep} from "../../../../types/UploadStep";
+import {ProcessingStep} from "../../../../types/ProcessingStep";
+
 
 export type Step = {
     label : string;
@@ -14,11 +19,11 @@ export type Step = {
 }
 
 const steps: Step[] = [
-    bgStep,
-    bgStep,
-    bgStep,
-    bgStep,
-    bgStep,
+    AudioStep,
+    BackgroundStep,
+    TitleStep,
+    ProcessingStep,
+    UploadStep,
 ] as const
 
 
@@ -32,6 +37,7 @@ export default function CreateVideoLayout(): JSX.Element {
     });
     const Editor = steps[currentStep].editor;
     const Preview = steps[currentStep].preview;
+    console.log(karaokiRequest)
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center
         ">
@@ -45,7 +51,12 @@ export default function CreateVideoLayout(): JSX.Element {
             <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">
                 {/* Left panel (dynamic content) */}
                 <section className="bg-white p-6 rounded-xl shadow">
-                    <Editor onSubmit = {() => setCurrentStep((currentStep) => currentStep + 1)}/>
+                    <Editor
+                        onSave = {(updates : Partial<KaraokeRequest>) => {
+                            setKaraokiRequest((prev) => ({ ...prev, ...updates }))}}
+                        onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
+
+                    />
                 </section>
 
                 {/* Right panel (preview) */}

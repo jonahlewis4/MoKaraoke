@@ -1,4 +1,4 @@
-export type KaraokiRequest = {
+export type KaraokeRequest = {
     title: string;
     description: string;
     audioPath: string;
