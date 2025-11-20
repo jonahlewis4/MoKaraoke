@@ -35,7 +35,7 @@ export default function CreateVideoLayout(props: CreatePostLayoutProps): JSX.Ele
             </div>
 
             {/* Stepper */}
-            <Stepper stepLabels={steps} currentStep={1} />
+            <Stepper stepLabels={steps} currentStep={2} />
 
             {/* Main Layout */}
             <div className="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-10">

@@ -26,7 +26,11 @@ const Stepper = (p : StepperProps) => <div className="flex items-center space-x-
 
             {/* Connector */}
             {index < p.stepLabels.length - 1 && (
-                <div className="w-10 h-[2px] bg-gray-300 ml-4" />
+                <div className={["w-10 h-[2px]",
+                index < p.currentStep
+                    ? "bg-blue-600"
+                    : "bg-gray-300",
+                "ml-4"].join(" ")} />
             )}
         </div>
     ))}
