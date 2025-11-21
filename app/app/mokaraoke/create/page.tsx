@@ -9,6 +9,7 @@ import {AudioStep} from "@/utils/components/AudioStep";
 import {BackgroundStep} from "@/utils/components/BackgroundStep";
 import {UploadStep} from "@/utils/components/UploadStep";
 import {ProcessingStep} from "@/utils/components/ProcessingStep";
+import {Header} from "@/utils/components/LinkHeader";
 
 
 export type Step = {
@@ -48,7 +49,7 @@ export default function CreateVideoLayout(): JSX.Element {
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
             {/* Header */}
-            {<Header/>}
+            {<Header title = "Create Karaoki Video" subtitle = "Need Help?" link = "https://moflo.ai/help" popout = {true}/>}
 
             {/* Stepper */}
             <Stepper stepLabels={steps.map(step => step.label)} currentStep={currentStep}/>
@@ -95,15 +96,4 @@ export default function CreateVideoLayout(): JSX.Element {
             </div>
         </div>
     );
-}
-
-function Header() : JSX.Element {
-    return <div className="text-center mb-6">
-        <h1 className="text-3xl font-bold">Create Karaoki Video</h1>
-        <Link href="https://moflo.ai/help" className="text-blue-500 text-sm hover:underline"
-              target="_blank" rel="noopener noreferrer"
-        >
-            Need Help?
-        </Link>
-    </div>;
 }
