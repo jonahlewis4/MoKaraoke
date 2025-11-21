@@ -9,6 +9,7 @@ export type SavedKaraoke = {
 };
 
 // ❗ Replace with a real API call later
+// ❗ Replace with a real API call later
 async function fetchSavedKaraoke(): Promise<SavedKaraoke[]> {
     return [
         {
@@ -17,10 +18,63 @@ async function fetchSavedKaraoke(): Promise<SavedKaraoke[]> {
         },
         {
             youtubeUrl: "https://www.youtube.com/watch?v=Zi_XLOBDo_Y",
-            title: "Another Fun Karaoke"
+            title: "Smooth Jazz Night"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=3JWTaaS7LdU",
+            title: "Classic Ballad"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=fJ9rUzIMcZQ",
+            title: "Bohemian Rhapsody Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=hTWKbfoikeg",
+            title: "Rock Anthem Singalong"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=2Vv-BfVoq4g",
+            title: "Soft Piano Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=kXYiU_JCYtU",
+            title: "Emo Night Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=YQHsXMglC9A",
+            title: "Adele Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=ktvTqknDobU",
+            title: "Imagine Dragons Vocal Track"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=iEPTlhBmwRg",
+            title: "Pop Classic Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=uelHwf8o7_U",
+            title: "Energetic Pop Remix"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=60ItHLz5WEA",
+            title: "Clean EDM Instrumental"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=19h5mH4p8So",
+            title: "Chill Acoustic Backing Track"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=9bZkp7q19f0",
+            title: "Gangnam Style Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=CevxZvSJLk8",
+            title: "Pop Diva Anthem"
         }
     ];
 }
+
 
 export default function GalleryPage() {
     const [items, setItems] = useState<SavedKaraoke[]>([]);
