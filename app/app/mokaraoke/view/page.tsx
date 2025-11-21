@@ -1,38 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import { KaraokeLifetime, KaraokeInputs, downloadKInputs } from "@/utils/types/KaraokeRequest";
 
-// ❗ Replace this with a real API call
-async function fetchKaraokeHistory(): Promise<KaraokeLifetime[]> {
+export type SavedKaraoke = {
+    youtubeUrl: string;
+    title: string;
+};
+
+// ❗ Replace with a real API call later
+async function fetchSavedKaraoke(): Promise<SavedKaraoke[]> {
     return [
         {
-            Inputs: {
-                Generate: {
-                    audioPath: "/demo/audio1.mp3",
-                    backgroundPath: "/demo/bg1.jpg"
-                },
-                Upload: {
-                    title: "My First Karaoke",
-                    description: "A sample description",
-                    generatedVideoPath: "/demo/video1.png"
-                }
-            },
-            Outputs: {
-                youtubePath: "https://youtube.com/watch?v=abc123"
-            }
+            youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+            title: "My First Karaoke"
+        },
+        {
+            youtubeUrl: "https://www.youtube.com/watch?v=Zi_XLOBDo_Y",
+            title: "Another Fun Karaoke"
         }
     ];
 }
 
 export default function GalleryPage() {
-    const [items, setItems] = useState<KaraokeLifetime[]>([]);
+    const [items, setItems] = useState<SavedKaraoke[]>([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchKaraokeHistory().then(data => {
+        fetchSavedKaraoke().then(data => {
             setItems(data);
             setLoading(false);
         });
@@ -43,12 +38,12 @@ export default function GalleryPage() {
             <Header />
 
             <div className="w-full max-w-6xl">
-                <h2 className="text-2xl font-semibold mb-6">Your Past Karaoke Videos</h2>
+                <h2 className="text-2xl font-semibold mb-6">Your Past Karaoki Videos</h2>
 
                 {loading ? (
                     <div className="text-gray-600">Loading...</div>
                 ) : items.length === 0 ? (
-                    <div className="text-gray-600">No past videos yet.</div>
+                    <div className="text-gray-600">No videos yet.</div>
                 ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                         {items.map((item, idx) => (
@@ -61,46 +56,35 @@ export default function GalleryPage() {
     );
 }
 
-function KaraokeCard({ data }: { data: KaraokeLifetime }) {
-    const img = data.Inputs.Upload.generatedVideoPath || "/placeholder.jpg";
+function KaraokeCard({ data }: { data: SavedKaraoke }) {
+    const embedUrl = convertYouTubeUrlToEmbed(data.youtubeUrl);
 
     return (
         <div className="bg-white rounded-xl shadow p-4 flex flex-col">
-            {/* Thumbnail */}
-            <div className="relative w-full h-40 mb-4">
-                <Image
-                    src={img}
-                    alt={data.Inputs.Upload.title}
-                    fill
-                    className="object-cover rounded-lg"
+            {/* YouTube embed */}
+            <div className="relative w-full h-48 mb-4">
+                <iframe
+                    src={embedUrl}
+                    className="w-full h-full rounded-lg"
+                    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
                 />
             </div>
 
-            {/* Content */}
-            <h3 className="font-bold text-lg">{data.Inputs.Upload.title}</h3>
-            <p className="text-gray-600 text-sm mb-4">{data.Inputs.Upload.description}</p>
-
-            {/* Buttons */}
-            <div className="mt-auto flex flex-col gap-2">
-                <button
-                    onClick={() => downloadKInputs(data.Inputs)}
-                    className="px-3 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm"
-                >
-                    Download Inputs
-                </button>
-
-                {data.Outputs.youtubePath && (
-                    <Link
-                        href={data.Outputs.youtubePath}
-                        target="_blank"
-                        className="px-3 py-2 bg-red-600 text-white text-center rounded hover:bg-red-700 text-sm"
-                    >
-                        View on YouTube
-                    </Link>
-                )}
-            </div>
+            {/* Title */}
+            <h3 className="font-bold text-lg mb-2">{data.title}</h3>
         </div>
     );
+}
+
+// Convert normal YouTube URL → embed URL
+function convertYouTubeUrlToEmbed(url: string): string {
+    try {
+        const id = new URL(url).searchParams.get("v");
+        return id ? `https://www.youtube.com/embed/${id}` : url;
+    } catch {
+        return url;
+    }
 }
 
 function Header() {
