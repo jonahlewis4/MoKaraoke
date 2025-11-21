@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import {Header} from "@/utils/components/LinkHeader";
 
 export type SavedKaraoke = {
     youtubeUrl: string;
@@ -89,7 +90,7 @@ export default function GalleryPage() {
 
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
-            <Header />
+            <Header title="Karaoki Gallery" subtitle="Create a new video" link="/mokaraoke/create"/>
 
             <div className="w-full max-w-6xl">
                 <h2 className="text-2xl font-semibold mb-6">Your Past Karaoki Videos</h2>
@@ -139,15 +140,4 @@ function convertYouTubeUrlToEmbed(url: string): string {
     } catch {
         return url;
     }
-}
-
-function Header() {
-    return (
-        <div className="text-center mb-6">
-            <h1 className="text-3xl font-bold">Karaoki Gallery</h1>
-            <Link href="/create" className="text-blue-500 text-sm hover:underline">
-                Create New Video
-            </Link>
-        </div>
-    );
 }
