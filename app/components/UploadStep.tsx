@@ -3,10 +3,11 @@ import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
 import React, {useEffect, useState} from "react";
 import {KaraokeLifetime} from "@/types/KaraokeRequest";
+import {uploadToYoutube} from "@/clientHttp/UploadToYoutube";
 
 export const UploadStep: Step = {
     label: "Upload",
-    editor: ({ onSave }: EditorProps) => {
+    editor: ({ onSave, request }: EditorProps) => {
         const [title, setTitle] = useState("");
         const [description, setDescription] = useState("");
         const [uploading, setUploading] = useState(false);
@@ -17,12 +18,21 @@ export const UploadStep: Step = {
             if (!title) return alert("Please enter a title before upoading.");
             setUploading(true);
 
-            setTimeout(() => {
-                const fakeVideoUrl = "https://example.com/fake-video.mp4";
-                setYoutubeUrl(fakeVideoUrl);
-                onSave({youtubePath: fakeVideoUrl});
-                setUploading(false);
-                setUploaded(true);
+            setTimeout(async () => {
+
+                try {
+                    const url = await uploadToYoutube(request.uploadRequest);
+                    setYoutubeUrl(url);
+                    onSave({youtubePath: url});
+                    setUploaded(true);
+                } catch (e){
+                    alert(e);
+                } finally {
+                    setUploading(false);
+                }
+
+
+
             }, 1)
         }
 

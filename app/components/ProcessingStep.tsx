@@ -17,7 +17,7 @@ export const ProcessingStep: Step = {
             setProcessing(true);
 
             try {
-                const result = await createKaraokiVideo(request);
+                const result = await createKaraokiVideo(request.generationRequest);
 
                 if(result) {
                     if(thisIsTheFirstAttempt){
