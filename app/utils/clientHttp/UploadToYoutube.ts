@@ -1,4 +1,4 @@
-import {UploadRequest} from "@/types/KaraokeRequest";
+import {UploadRequest} from "@/utils/types/KaraokeRequest";
 
 export const uploadToYoutube = async (input : UploadRequest) => {
     const response = await fetch("/api/karaoke/upload");

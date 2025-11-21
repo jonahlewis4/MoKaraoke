@@ -1,9 +1,9 @@
 "use client"
 import {Step} from "@/app/mokaraoke/create/page";
-import {EditorProps} from "@/components/EditorDefinitions";
+import {EditorProps} from "@/utils/components/EditorDefinitions";
 import React, {useEffect, useState} from "react";
-import {KaraokeLifetime} from "@/types/KaraokeRequest";
-import {uploadToYoutube} from "@/clientHttp/UploadToYoutube";
+import {KaraokeLifetime} from "@/utils/types/KaraokeRequest";
+import {uploadToYoutube} from "@/utils/clientHttp/UploadToYoutube";
 
 export const UploadStep: Step = {
     label: "Upload",
@@ -21,9 +21,12 @@ export const UploadStep: Step = {
             setTimeout(async () => {
 
                 try {
-                    const url = await uploadToYoutube(request.uploadRequest);
+                    const url = await uploadToYoutube(request.Inputs.Upload);
                     setYoutubeUrl(url);
-                    onSave({youtubePath: url});
+                    const updates = {
+                        Outputs: {youtubePath: url}
+                    }
+                    onSave(updates);
                     setUploaded(true);
                 } catch (e){
                     alert(e);
@@ -45,7 +48,7 @@ export const UploadStep: Step = {
                     onChange={(e) => {
                         setTitle(e.target.value)
                         onSave({
-                            uploadRequest: {title: e.target.value},
+                            Inputs: {Upload: {title: e.target.value}},
                         })
                     }
                     }
@@ -58,7 +61,7 @@ export const UploadStep: Step = {
                     onChange={(e) => {
                         setDescription(e.target.value)
                         onSave({
-                            uploadRequest: {description: e.target.value},
+                            Inputs: {Upload: {description: e.target.value}},
                         })
                     }
                     }
@@ -117,15 +120,18 @@ export const UploadStep: Step = {
         );
     },
     preview: ({ request }: { request: KaraokeLifetime }) => {
+        const previewPath = request.Inputs.Upload.generatedVideoPath;
+        const title = request.Inputs.Upload.title;
+        const description = request.Inputs.Upload.description;
         return (
             <div className="max-w-sm border rounded overflow-hidden shadow-lg">
-                <video src={request.uploadRequest.generatedVideoPath} controls className="w-full h-48 object-cover"/>
+                <video src={previewPath} controls className="w-full h-48 object-cover"/>
 
                 {/* Video info */}
                 <div className="p-4">
-                    <h3 className="font-bold text-lg">{request.uploadRequest.title || "Title goes here"}</h3>
+                    <h3 className="font-bold text-lg">{title || "Title goes here"}</h3>
                     <p className="text-gray-700 text-sm">
-                        {request.uploadRequest.description || "Description goes here"}
+                        {description || "Description goes here"}
                     </p>
                 </div>
             </div>

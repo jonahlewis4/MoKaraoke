@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import TextHighLightAnimation from "@/components/TextHighLightAnimation";
+import TextHighLightAnimation from "@/utils/components/TextHighLightAnimation";
 
 export type LyricWrapperProps = {
     lyrics: string;

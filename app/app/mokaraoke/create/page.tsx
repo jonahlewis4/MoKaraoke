@@ -2,13 +2,13 @@
 
 import React, {ComponentType, JSX, useState} from "react";
 import Link from "next/link";
-import Stepper from "@/components/Stepper";
-import {EditorComponent} from "@/components/EditorDefinitions";
-import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
-import {AudioStep} from "@/components/AudioStep";
-import {BackgroundStep} from "@/components/BackgroundStep";
-import {UploadStep} from "@/components/UploadStep";
-import {ProcessingStep} from "@/components/ProcessingStep";
+import Stepper from "@/utils/components/Stepper";
+import {EditorComponent} from "@/utils/components/EditorDefinitions";
+import {downloadKInputs, KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
+import {AudioStep} from "@/utils/components/AudioStep";
+import {BackgroundStep} from "@/utils/components/BackgroundStep";
+import {UploadStep} from "@/utils/components/UploadStep";
+import {ProcessingStep} from "@/utils/components/ProcessingStep";
 
 
 export type Step = {
@@ -28,16 +28,20 @@ const steps: Step[] = [
 export default function CreateVideoLayout(): JSX.Element {
     const [currentStep, setCurrentStep] = useState(0)
     const [karaokiRequest, setKaraokiRequest] = useState<KaraokeLifetime>({
-        generationRequest: {
-            audioPath: "",
-            backgroundPath: ""
+        Inputs: {
+            Generate: {
+                audioPath: "",
+                backgroundPath: ""
+            },
+            Upload: {
+                title: "",
+                description: "",
+                generatedVideoPath: ""
+            }
         },
-        uploadRequest: {
-            title: "",
-            description: "",
-            generatedVideoPath: ""
-        },
-        youtubePath: "",
+        Outputs: {
+            youtubePath: ""
+        }
     });
     const Editor = steps[currentStep].editor;
     const Preview = steps[currentStep].preview;
@@ -58,18 +62,29 @@ export default function CreateVideoLayout(): JSX.Element {
                         onSave = {(updates : PartialKaraokeLifetime) => {
                             setKaraokiRequest((prev) => ({
                                 ...prev,
-                                generationRequest: {
-                                    ...prev.generationRequest,
-                                    ...updates.generationRequest,
+                                Inputs: {
+                                    Generate: {
+                                        ...prev.Inputs.Generate,
+                                        ...updates.Inputs?.Generate
+                                    },
+                                    Upload: {
+                                        ...prev.Inputs.Upload,
+                                        ...updates.Inputs?.Upload
+                                    }
                                 },
-                                uploadRequest: {
-                                    ...prev.uploadRequest,
-                                    ...updates.uploadRequest,
+                                Outputs: {
+                                    ...prev.Outputs,
+                                    ...updates.Outputs
                                 }
                             }))}}
                         onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
-
                     />
+                    <button
+                        onClick={() => downloadKInputs(karaokiRequest)}
+                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full"
+                    >
+                        Download Form Data
+                    </button>
                 </section>
 
                 {/* Right panel (preview) */}

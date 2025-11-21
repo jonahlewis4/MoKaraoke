@@ -1,10 +1,11 @@
-import NavMenu from "@/components/NavMenu";
+import NavMenu from "@/utils/components/NavMenu";
 
 
 export default function KaraokiLayout({ children }: { children: React.ReactNode }) {
     return (
         <>
             <NavMenu />
+
             {children}
         </>
     )

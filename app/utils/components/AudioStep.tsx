@@ -1,6 +1,6 @@
 import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "./EditorDefinitions";
-import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
 import React, { useState, ChangeEvent } from "react";
 
 const validTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];
@@ -26,8 +26,10 @@ export const AudioStep: Step = {
                 // Update the parent with the uploaded file path
                 // Here we use file.name as a placeholder path
                 const updates: PartialKaraokeLifetime = {
-                    generationRequest: {
-                        audioPath: newFileUrl,
+                    Inputs: {
+                        Generate: {
+                            audioPath: newFileUrl
+                        }
                     }
                 };
                 onSave(updates); // update parent state
@@ -69,7 +71,7 @@ export const AudioStep: Step = {
     },
 
     preview: ({request}: { request : KaraokeLifetime }) => {
-        const audioPath = request.generationRequest.audioPath;
+        const audioPath = request.Inputs.Generate.audioPath;
         if (!audioPath) return <p>No audio selected yet.</p>;
 
         return (

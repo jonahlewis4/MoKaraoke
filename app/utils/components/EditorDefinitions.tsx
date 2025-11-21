@@ -1,5 +1,5 @@
 import React from "react";
-import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
 
 export type EditorProps = {
     request: KaraokeLifetime;
