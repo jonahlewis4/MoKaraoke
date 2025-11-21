@@ -49,7 +49,7 @@ export default function CreateVideoLayout(): JSX.Element {
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
             {/* Header */}
-            {<Header title = "Create Karaoki Video" subtitle = "Need Help?" link = "https://moflo.ai/help"/>}
+            {<Header title = "Create Karaoki Video" subtitle = "Need Help?" link = "https://moflo.ai/help" popout = {true}/>}
 
             {/* Stepper */}
             <Stepper stepLabels={steps.map(step => step.label)} currentStep={currentStep}/>
