@@ -7,7 +7,6 @@ import {EditorComponent} from "@/components/EditorDefinitions";
 import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 import {AudioStep} from "@/components/AudioStep";
 import {BackgroundStep} from "@/components/BackgroundStep";
-import {TitleStep} from "@/components/TitleStep";
 import {UploadStep} from "@/components/UploadStep";
 import {ProcessingStep} from "@/components/ProcessingStep";
 
@@ -42,7 +41,6 @@ export default function CreateVideoLayout(): JSX.Element {
     });
     const Editor = steps[currentStep].editor;
     const Preview = steps[currentStep].preview;
-    console.log(karaokiRequest)
     return (
         <div className="w-full min-h-screen bg-gray-50 p-6 flex flex-col items-center">
             {/* Header */}
