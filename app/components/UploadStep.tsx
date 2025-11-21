@@ -1,65 +1,134 @@
 "use client"
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/components/EditorDefinitions";
-import {useEffect, useState} from "react";
-import {KaraokeRequest} from "@/types/KaraokeRequest";
+import React, {useEffect, useState} from "react";
+import {KaraokeLifetime} from "@/types/KaraokeRequest";
+import {uploadToYoutube} from "@/clientHttp/UploadToYoutube";
 
 export const UploadStep: Step = {
     label: "Upload",
-    editor: ({ onSave }: EditorProps) => {
-        const [progress, setProgress] = useState(0);
-        const [done, setDone] = useState(false);
+    editor: ({ onSave, request }: EditorProps) => {
+        const [title, setTitle] = useState("");
+        const [description, setDescription] = useState("");
+        const [uploading, setUploading] = useState(false);
+        const [uploaded, setUploaded] = useState(false);
+        const [youtubeUrl, setYoutubeUrl] = useState<string | null>(null);
 
-        useEffect(() => {
-            // Simulate processing/upload
-            const interval = setInterval(() => {
-                setProgress((prev) => {
-                    if (prev >= 100) {
-                        clearInterval(interval);
-                        setDone(true);
-                        return 100;
-                    }
-                    return prev + 10;
-                });
-            }, 300); // every 0.3s increase progress
-            return () => clearInterval(interval);
-        }, []);
+        const handleUpload = async () => {
+            if (!title) return alert("Please enter a title before upoading.");
+            setUploading(true);
 
-        return (
-            <div>
-                <p className="mb-2">Processing & uploading your video...</p>
-                <div className="w-full bg-gray-200 rounded h-4">
-                    <div
-                        className="bg-blue-600 h-4 rounded"
-                        style={{ width: `${progress}%` }}
-                    ></div>
-                </div>
-                {done && (
-                    <button
-                        className="mt-4 px-4 py-2 bg-blue-600 text-white rounded"
-                    >
-                        Upload to Youtube
-                    </button>
-                )}
-            </div>
-        );
-    },
-    preview: ({ request }: { request: KaraokeRequest }) => {
-        if (!request.generatedVideoPath) {
-            // Placeholder while processing
-            return (
-                <div className="h-48 flex items-center justify-center text-gray-500">
-                    Video preview will appear here
-                </div>
-            );
+            setTimeout(async () => {
+
+                try {
+                    const url = await uploadToYoutube(request.uploadRequest);
+                    setYoutubeUrl(url);
+                    onSave({youtubePath: url});
+                    setUploaded(true);
+                } catch (e){
+                    alert(e);
+                } finally {
+                    setUploading(false);
+                }
+
+
+
+            }, 1)
         }
 
         return (
-            <video
-                src={request.generatedVideoPath}
-                controls
-                className="w-full rounded shadow"
-            />
+            <div className="flex flex-col space-y-4">
+                <label className="font-medium">Video Title</label>
+                <input
+                    type="text"
+                    value={title}
+                    onChange={(e) => {
+                        setTitle(e.target.value)
+                        onSave({
+                            uploadRequest: {title: e.target.value},
+                        })
+                    }
+                    }
+                    className="border p-2 rounded w-full"
+                />
+
+                <label className="font-medium">Video Description</label>
+                <textarea
+                    value={description}
+                    onChange={(e) => {
+                        setDescription(e.target.value)
+                        onSave({
+                            uploadRequest: {description: e.target.value},
+                        })
+                    }
+                    }
+                    className="border p-2 rounded w-full"
+                    rows={4}
+                />
+
+
+                {!uploaded ? (
+                    <button
+                        onClick={handleUpload}
+                        disabled={uploading}
+                        className={`flex items-center justify-center space-x-2 px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400`}
+                    >
+                        {uploading && (
+                            <svg
+                                className="animate-spin h-5 w-5 text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v8H4z"
+                                ></path>
+                            </svg>
+                        )}
+                        <span>{uploading ? "Uploading..." : "Upload Video"}</span>
+                    </button>
+                ) : (
+                    <div className="text-green-600 font-medium text-center margintop-4">
+                        Video uploaded!{" "}
+                        {youtubeUrl && (
+                            <a
+                                href={youtubeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline"
+                            >
+                                View on YouTube
+                            </a>
+                        )}
+                    </div>
+                )}
+
+            </div>
         );
     },
+    preview: ({ request }: { request: KaraokeLifetime }) => {
+        return (
+            <div className="max-w-sm border rounded overflow-hidden shadow-lg">
+                <video src={request.uploadRequest.generatedVideoPath} controls className="w-full h-48 object-cover"/>
+
+                {/* Video info */}
+                <div className="p-4">
+                    <h3 className="font-bold text-lg">{request.uploadRequest.title || "Title goes here"}</h3>
+                    <p className="text-gray-700 text-sm">
+                        {request.uploadRequest.description || "Description goes here"}
+                    </p>
+                </div>
+            </div>
+        )
+    }
 };

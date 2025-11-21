@@ -1,10 +1,10 @@
 import React from "react";
-import {KaraokeRequest} from "@/types/KaraokeRequest";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
 
 export type EditorProps = {
-    request: KaraokeRequest;
+    request: KaraokeLifetime;
     onNext: () => void;
-    onSave: (k: Partial<KaraokeRequest>) => void;
+    onSave: (k: PartialKaraokeLifetime) => void;
 };
 
 export type EditorComponent = React.ComponentType<EditorProps>;
