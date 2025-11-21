@@ -80,7 +80,7 @@ export default function CreateVideoLayout(): JSX.Element {
                         onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
                     />
                     <button
-                        onClick={() => downloadKInputs(karaokiRequest)}
+                        onClick={() => downloadKInputs(karaokiRequest.Inputs)}
                         className="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 w-full"
                     >
                         Download Form Data

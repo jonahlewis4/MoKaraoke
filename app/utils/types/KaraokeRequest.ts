@@ -32,10 +32,10 @@ export type PartialKaraokeLifetime = Partial<({
     Outputs: Partial<KaraokeOutputs>;
 })>;
 
-export const downloadKInputs = async (karaokeLifeTime: KaraokeLifetime) => {
+export const downloadKInputs = async (inputs: KaraokeInputs) => {
     //download json version of the karaoke lifetime
 
-    const json = JSON.stringify(karaokeLifeTime);
+    const json = JSON.stringify(inputs);
     const blob = new Blob([json], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
