@@ -9,6 +9,22 @@ export const UploadStep: Step = {
     editor: ({ onSave }: EditorProps) => {
         const [title, setTitle] = useState("");
         const [description, setDescription] = useState("");
+        const [uploading, setUploading] = useState(false);
+        const [uploaded, setUploaded] = useState(false);
+        const [youtubeUrl, setYoutubeUrl] = useState<string | null>(null);
+
+        const handleUpload = async () => {
+            if (!title) return alert("Please enter a title before upoading.");
+            setUploading(true);
+
+            setTimeout(() => {
+                const fakeVideoUrl = "https://example.com/fake-video.mp4";
+                setYoutubeUrl(fakeVideoUrl);
+                onSave({youtubePath: fakeVideoUrl});
+                setUploading(false);
+                setUploaded(true);
+            }, 1)
+        }
 
         return (
             <div className="flex flex-col space-y-4">
@@ -39,6 +55,54 @@ export const UploadStep: Step = {
                     className="border p-2 rounded w-full"
                     rows={4}
                 />
+
+
+                {!uploaded ? (
+                    <button
+                        onClick={handleUpload}
+                        disabled={uploading}
+                        className={`flex items-center justify-center space-x-2 px-4 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400`}
+                    >
+                        {uploading && (
+                            <svg
+                                className="animate-spin h-5 w-5 text-white"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <circle
+                                    className="opacity-25"
+                                    cx="12"
+                                    cy="12"
+                                    r="10"
+                                    stroke="currentColor"
+                                    strokeWidth="4"
+                                ></circle>
+                                <path
+                                    className="opacity-75"
+                                    fill="currentColor"
+                                    d="M4 12a8 8 0 018-8v8H4z"
+                                ></path>
+                            </svg>
+                        )}
+                        <span>{uploading ? "Uploading..." : "Upload Video"}</span>
+                    </button>
+                ) : (
+                    <div className="text-green-600 font-medium text-center margintop-4">
+                        Video uploaded!{" "}
+                        {youtubeUrl && (
+                            <a
+                                href={youtubeUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="underline"
+                            >
+                                View on YouTube
+                            </a>
+                        )}
+                    </div>
+                )}
+
             </div>
         );
     },
