@@ -1,4 +1,4 @@
-import {GenerationRequest, KaraokeLifetime} from "@/types/KaraokeRequest";
+import {GenerationRequest} from "@/utils/types/KaraokeRequest";
 
 //simulation of a backend call
 export const createKaraokiVideo = async (input : GenerationRequest) : Promise<string> => {

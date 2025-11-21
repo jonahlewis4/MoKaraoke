@@ -1,9 +1,9 @@
 "use client"
 import {Step} from "@/app/mokaraoke/create/page";
-import {EditorProps} from "@/components/EditorDefinitions";
+import {EditorProps} from "@/utils/components/EditorDefinitions";
 import {useEffect, useState} from "react";
-import {KaraokeLifetime, PartialKaraokeLifetime} from "@/types/KaraokeRequest";
-import {createKaraokiVideo} from "@/clientHttp/CreateKaraokiVideo";
+import {KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
+import {createKaraokiVideo} from "@/utils/clientHttp/CreateKaraokiVideo";
 
 export const ProcessingStep: Step = {
     label: "Processing",
@@ -17,7 +17,7 @@ export const ProcessingStep: Step = {
             setProcessing(true);
 
             try {
-                const result = await createKaraokiVideo(request.generationRequest);
+                const result = await createKaraokiVideo(request.Inputs.Generate);
 
                 if(result) {
                     if(thisIsTheFirstAttempt){
@@ -35,8 +35,10 @@ export const ProcessingStep: Step = {
 
         const keepResult = (newVideoUrl : string) => {
             const updatedRequest : PartialKaraokeLifetime = {
-                uploadRequest: {
-                    generatedVideoPath: newVideoUrl
+                Inputs: {
+                    Upload: {
+                        generatedVideoPath: newVideoUrl
+                    }
                 }
             }
 
@@ -111,7 +113,8 @@ export const ProcessingStep: Step = {
         );
     },
     preview: ({ request }: { request: KaraokeLifetime }) => {
-        return request.uploadRequest.generatedVideoPath && <video src={request.uploadRequest.generatedVideoPath} controls className="w-full rounded"/>
+        const path = request.Inputs.Upload.generatedVideoPath
+        return path && <video src={path} controls className="w-full rounded"/>
     },
 };
 

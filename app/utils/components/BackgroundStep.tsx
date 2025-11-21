@@ -2,9 +2,9 @@
 
 import React, { useState, ChangeEvent } from "react";
 import { Step } from "@/app/mokaraoke/create/page";
-import { EditorProps } from "@/components/EditorDefinitions";
-import { KaraokeLifetime } from "@/types/KaraokeRequest";
-import {LyricWrapper} from "@/components/LyricWrapperProps";
+import { EditorProps } from "@/utils/components/EditorDefinitions";
+import { KaraokeLifetime } from "@/utils/types/KaraokeRequest";
+import {LyricWrapper} from "@/utils/components/LyricWrapperProps";
 
 export const BackgroundStep: Step = {
     label: "Background",
@@ -37,8 +37,10 @@ export const BackgroundStep: Step = {
 
             // Save the updates to parent
             onSave({
-                generationRequest: {
-                    backgroundPath: url
+                Inputs: {
+                    Generate: {
+                        backgroundPath: url
+                    }
                 }
             });
         };
@@ -72,15 +74,15 @@ export const BackgroundStep: Step = {
     },
 
     preview: ({request}: { request : KaraokeLifetime }) => {
-        const bgPath = request.generationRequest.backgroundPath;
+        const bgPath = request.Inputs.Generate.backgroundPath;
         if (!bgPath) return <p>No background selected yet</p>;
         const lyrics = "Your lyrics will appear here";
         return (
             <div className="flex justify-center">
                 <LyricWrapper lyrics={lyrics}>
-                    {request.generationRequest.backgroundPath ? (
+                    {bgPath ? (
                         <img
-                            src={request.generationRequest.backgroundPath}
+                            src={bgPath}
                             className="rounded shadow w-full h-full object-cover"
                          alt={"preview image"}/>
                     ) : null}
