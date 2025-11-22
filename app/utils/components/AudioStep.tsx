@@ -2,6 +2,7 @@ import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "./EditorDefinitions";
 import {KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
 import React, { useState, ChangeEvent } from "react";
+import {uploadFile} from "@/utils/clientHttp/uploadAudioFile";
 
 const validTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];
 
@@ -34,16 +35,14 @@ export const AudioStep: Step = {
         };
 
         // Handle submit button
-        const handleSubmit = () => {
+        const handleSubmit = async () => {
             if (!file) {
                 alert("Please select an audio file");
                 return;
             }
 
 
-            //upload the audio file to server and store the id in teh request
-            //TODO
-            uploadAudioFile(file);
+            const audioUrl = await uploadFile(file);
             onNext();        // move to next step
         };
 

@@ -13,6 +13,8 @@ export const ProcessingStep: Step = {
         const [saved, setSaved] = useState(false);
         const [thisIsTheFirstAttempt, setThisIsTheFirstAttempt] = useState(true);
 
+
+
         const startProcessing = async () => {
             setCandidateVideo(null);
             setProcessing(true);
@@ -33,6 +35,7 @@ export const ProcessingStep: Step = {
                 setProcessing(false);
             }
         }
+
 
         const keepResult = (newVideoUrl : string) => {
             const updatedRequest : PartialKaraokeLifetime = {

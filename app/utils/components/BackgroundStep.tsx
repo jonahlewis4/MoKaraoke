@@ -31,15 +31,11 @@ export const BackgroundStep: Step = {
             }
 
             setFile(selectedFile);
-
-            // Generate a temporary URL for preview
-            const url = URL.createObjectURL(selectedFile);
-
             // Save the updates to parent
             onSave({
                 Inputs: {
                     Generate: {
-                        backgroundPath: url
+                        backgroundFile: selectedFile
                     }
                 }
             });
@@ -74,8 +70,10 @@ export const BackgroundStep: Step = {
     },
 
     preview: ({request}: { request : KaraokeLifetime }) => {
-        const bgPath = request.Inputs.Generate.backgroundPath;
-        if (!bgPath) return <p>No background selected yet</p>;
+        if(request.Inputs.Generate.backgroundFile === undefined) return (
+            <p>No background selected yet</p>
+        )
+        const bgPath = URL.createObjectURL(request.Inputs.Generate.backgroundFile!);
         const lyrics = "Your lyrics will appear here";
         return (
             <div className="flex justify-center">
