@@ -32,3 +32,26 @@ export async function addGenVideoRow(uuid: string, fspath: string): Promise<void
 
     console.log(`Generated video row inserted for uuid ${uuid}`);
 }
+
+
+export async function updateTitleAndUrl(
+    uuid: string,
+    youtubeUrl: string,
+    title: string
+) {
+    const { data, error } = await supabase
+        .from('videos')
+        .update({
+            youtubeUrl: youtubeUrl,
+            title: title
+        })
+        .eq('uuid', uuid)
+        .select();
+
+    if (error) {
+        console.error('Error updating video:', error);
+        throw new Error(`Failed to update video: ${error.message}`);
+    }
+
+    return data;
+}
