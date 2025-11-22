@@ -88,3 +88,38 @@ export async function getFileUrl(bucket: string, filePath: string): Promise<stri
 
     return data.signedUrl;
 }
+
+/**
+ * Uploads a file to Supabase Storage.
+ * Ensures the bucket exists.
+ * Does NOT return a signed URL — only throws on failure.
+ *
+ * @returns the stored file path (e.g. "uploads/abc123.mp4")
+ */
+export async function uploadFile(
+    bucket: string,
+    filePath: string,
+    file: File,
+    isPublic = false
+): Promise<void> {
+
+    const arrayBuffer = await file.arrayBuffer();
+    const fileBuffer = Buffer.from(arrayBuffer);
+
+
+    // 1. Ensure bucket exists
+    await ensureBucketExists(bucket, isPublic);
+
+    // 2. Upload file
+    const { data, error } = await supabase.storage
+        .from(bucket)
+        .upload(filePath, fileBuffer, { upsert: true });
+
+    if (error) {
+        throw new Error(`Failed to upload file: ${error.message}`);
+    }
+
+    if (!data) {
+        throw new Error("Upload failed: no data returned.");
+    }
+}

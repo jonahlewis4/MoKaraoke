@@ -1,1 +1,3 @@
-export const getDownloadLinkForUuidResource = (uuid: string) => "/api/download/?uuid=" + uuid;
+export const getDownloadLinkForUuidResource = (uuid: string) => {
+    return `http://localhost:3000/api/karaoke/generated?uuid=${uuid}`;
+};

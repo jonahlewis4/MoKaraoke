@@ -1,4 +1,3 @@
-// app/api/video/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
 import {DEFAULT_BUCKET} from "@/utils/env/envConstants";

@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { writeFile } from "fs/promises";
 import path from "path";
 import {saveTempFile} from "@/app/api/upload/saveTempFile";
-import {uploadFileAndGetSignedUrl} from "@/utils/supabase/backendClient";
 import {DEFAULT_BUCKET} from "@/utils/env/envConstants";
 import fs from "fs";
 import {randomUUID} from "node:crypto";

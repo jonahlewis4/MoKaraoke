@@ -12,3 +12,18 @@ export async function getPathOfGenVideo(uuid: string): Promise<string> {
 
     return data.fspath;
 }
+
+export async function addGenVideoRow(uuid: string, fspath: string): Promise<void> {
+    const { error } = await supabase
+        .from('videos')
+        .insert({
+            uuid,
+            fspath,
+            title: null,
+            youtubeUrl: null
+        });
+
+    if (error) {
+        throw new Error(`Failed to insert gen_video row: ${error.message}`);
+    }
+}
