@@ -32,10 +32,7 @@ export type PartialKaraokeLifetime = Partial<({
     Outputs: Partial<KaraokeOutputs>;
 })>;
 
-export type SavedKaraoke = {
-    youtubeUrl: string;
-    title: string;
-}
+
 
 export const downloadKInputs = async (inputs: KaraokeInputs) => {
     //download json version of the karaoke lifetime
