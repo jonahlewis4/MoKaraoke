@@ -9,7 +9,7 @@ const validTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];
 export const AudioStep: Step = {
     label: "Audio",
     editor: ({ onNext, onSave }: EditorProps) => {
-        const [fileName, setFileName] = useState<string | null>(null);
+        const [file, setFile] = useState<File | null>(null);
         // Handle file input change
         const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (e.target.files && e.target.files.length > 0) {
@@ -19,7 +19,7 @@ export const AudioStep: Step = {
                     return;
                 }
 
-                setFileName(f.name);
+                setFile(f);
                 // Update the parent with the uploaded file path
                 // Here we use file.name as a placeholder path
                 const updates: PartialKaraokeLifetime = {
@@ -35,13 +35,15 @@ export const AudioStep: Step = {
 
         // Handle submit button
         const handleSubmit = () => {
-            if (!fileName) {
+            if (!file) {
                 alert("Please select an audio file");
                 return;
             }
 
 
-
+            //upload the audio file to server and store the id in teh request
+            //TODO
+            uploadAudioFile(file);
             onNext();        // move to next step
         };
 
@@ -55,7 +57,7 @@ export const AudioStep: Step = {
                     className="border p-2 rounded"
                 />
 
-                {fileName && <p>Selected file: {fileName}</p>}
+                {file && <p>Selected file: {file.name}</p>}
 
                 <button
                     onClick={handleSubmit}
