@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
         if (!validTypes.includes(file.type)) {
             return NextResponse.json({ error: "Invalid file type! Only JPEG, PNG, GIF, mp3, wav or mpeg allowed." }, { status: 400 });
         }
-        const uuid = saveFile(file);
+        const uuid = await saveFile(file);
 
 
         return NextResponse.json(uuid);

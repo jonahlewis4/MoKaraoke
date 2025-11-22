@@ -1,10 +1,10 @@
 "use client"
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/utils/components/EditorDefinitions";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
 import {createKaraokiVideo} from "@/utils/clientHttp/CreateKaraokiVideo";
-
+import {getDownloadLinkForUuidResource} from "@/utils/clientHttp/getDownloadLinkForUuidResource";
 export const ProcessingStep: Step = {
     label: "Processing",
     editor: ({ onNext, onSave, request }: EditorProps) => {

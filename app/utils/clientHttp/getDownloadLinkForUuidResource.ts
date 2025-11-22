@@ -1,1 +1,1 @@
-const getDownloadLinkForUuidResource = (uuid: string) => "/api/download/?uuid=" + uuid;
+export const getDownloadLinkForUuidResource = (uuid: string) => "/api/download/?uuid=" + uuid;

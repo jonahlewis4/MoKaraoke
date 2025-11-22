@@ -4,7 +4,7 @@ export type GenerationRequest = {
     audioFile?: File;
     audioId: string;
     backgroundFile?: File;
-    backgroundId: number;
+    backgroundId: string;
 
 }
 export type UploadRequest = {

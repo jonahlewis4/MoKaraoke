@@ -2,6 +2,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import fs from "fs";
 import path from "path";
+import mime from "mime"; // npm install mime
 
 export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
@@ -16,18 +17,20 @@ export async function GET(req: NextRequest) {
         return new NextResponse("No videos found", { status: 404 });
     }
 
+
     const randomVideo = files[Math.floor(Math.random() * files.length)];
-    const filePath = '/mockData/' + randomVideo;
+    const fullPath = path.join(dirPath, randomVideo);
     // just return the client-accessible URL
 
-    if (!fs.existsSync(filePath)) return new Response(JSON.stringify({ error: "File not found" }), { status: 404 });
+    if (!fs.existsSync(fullPath)) return new Response(JSON.stringify({ error: "File not found" }), { status: 404 });
 
-    const fileBuffer = fs.readFileSync(filePath);
+    const fileBuffer = fs.readFileSync(fullPath);
+
+    const mimeType = await mime.getType(fullPath) || "application/octet-stream";
 
     return new Response(fileBuffer, {
         headers: {
-            "Content-Disposition": `attachment; filename="${uuid}.mp3"`,
-            "Content-Type": "audio/mpeg",
+            "Content-Type": mimeType,
         },
     });
 }
