@@ -14,6 +14,7 @@ export const ProcessingStep: Step = {
         const [thisIsTheFirstAttempt, setThisIsTheFirstAttempt] = useState(true);
 
         const startProcessing = async () => {
+            setCandidateVideo(null);
             setProcessing(true);
 
             try {
@@ -46,10 +47,6 @@ export const ProcessingStep: Step = {
             setCandidateVideo(null);
             setSaved(true);
             onSave(updatedRequest);
-        }
-
-        const useOld = () => {
-            setCandidateVideo(null)
         }
 
         return (
@@ -92,7 +89,6 @@ export const ProcessingStep: Step = {
                 {!thisIsTheFirstAttempt && candidateVideo &&  <VideoChoppingBlock
                     videoUrl={candidateVideo}
                     onAccept={() => keepResult(candidateVideo)}
-                    onReject={useOld}
                 />}
 
                 {/* NEXT BUTTON */}
@@ -119,7 +115,7 @@ export const ProcessingStep: Step = {
 };
 
 
-function VideoChoppingBlock({ videoUrl, onAccept, onReject }: { videoUrl: string, onAccept: () => void, onReject: () => void }) {
+function VideoChoppingBlock({ videoUrl, onAccept }: { videoUrl: string, onAccept: () => void }) {
     {/* RESULT PREVIEW */}
     return <div className="space-y-2">
             <h3 className="font-semibold">Preview</h3>
@@ -131,12 +127,6 @@ function VideoChoppingBlock({ videoUrl, onAccept, onReject }: { videoUrl: string
                     className="px-4 py-2 bg-green-600 text-white rounded"
                 >
                     Use New Result
-                </button>
-                <button
-                    onClick={onReject}
-                    className="px-4 py-2 bg-gray-500 text-white rounded"
-                >
-                    Use Old Result
                 </button>
             </div>
         </div>
