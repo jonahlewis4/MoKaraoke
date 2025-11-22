@@ -3,11 +3,16 @@ import fs from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import {randomUUID} from "node:crypto";
+import {GenerationRequest} from "@/utils/types/KaraokeRequest";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export async function GET() {
-    await sleep(2000);
+const generateVideo = async (input: GenerationRequest) => {
+    return randomUUID();
+};
 
-    return NextResponse.json(randomUUID());
+export async function GET(request: GenerationRequest) {
+    await sleep(2000);
+    const uuid = await generateVideo(request);
+    return NextResponse.json(uuid);
 }
