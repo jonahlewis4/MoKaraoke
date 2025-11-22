@@ -2,15 +2,15 @@
 
 export type GenerationRequest = {
     audioFile?: File;
-    audioId: string;
+    audioUrl: string;
     backgroundFile?: File;
-    backgroundId: string;
+    backgroundUrl: string;
 
 }
 export type UploadRequest = {
     title: string;
     description: string;
-    generatedVideoUUID: string;
+    generatedVideoUUID?: string;
 }
 
 

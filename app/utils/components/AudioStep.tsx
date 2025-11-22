@@ -41,16 +41,20 @@ export const AudioStep: Step = {
                 return;
             }
 
-
-            const uuid = await uploadFile(file);
-            onSave({
-                Inputs: {
-                    Generate: {
-                        audioId: uuid
+            try {
+                const audioUrl = await uploadFile(file);
+                onSave({
+                    Inputs: {
+                        Generate: {
+                            audioUrl: audioUrl
+                        }
                     }
-                }
-            })
-            onNext();        // move to next step
+                })
+                onNext();
+            } catch (error) {
+                console.error("Error uploading audio file:", error);
+                alert("Error uploading audio file. Please try again.\n" + error);
+            }
         };
 
         return (

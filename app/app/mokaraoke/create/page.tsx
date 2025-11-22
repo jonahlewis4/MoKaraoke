@@ -33,9 +33,9 @@ export default function CreateVideoLayout(): JSX.Element {
         Inputs: {
             Generate: {
                 audioFile: undefined,
-                audioId: "",
+                audioUrl: "",
                 backgroundFile: undefined,
-                backgroundId: ""
+                backgroundUrl: ""
             },
             Upload: {
                 title: "",
