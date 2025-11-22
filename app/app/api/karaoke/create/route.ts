@@ -2,21 +2,17 @@
 import fs from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
+import {randomUUID} from "node:crypto";
+import {GenerationRequest} from "@/utils/types/KaraokeRequest";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-export async function GET() {
+const generateVideo = async (input: GenerationRequest) => {
+    return randomUUID();
+};
+
+export async function GET(request: GenerationRequest) {
     await sleep(2000);
-
-    const dirPath = path.join(process.cwd(), "public", "mockData");
-    const files = fs.readdirSync(dirPath).filter(f => f.endsWith(".mp4"));
-
-    if (files.length === 0) {
-        return new NextResponse("No videos found", { status: 404 });
-    }
-
-    const randomVideo = files[Math.floor(Math.random() * files.length)];
-
-    // just return the client-accessible URL
-    return NextResponse.json({ videoUrl: `/mockData/${randomVideo}` });
+    const uuid = await generateVideo(request);
+    return NextResponse.json(uuid);
 }

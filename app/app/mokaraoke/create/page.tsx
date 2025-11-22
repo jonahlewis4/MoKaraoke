@@ -10,6 +10,7 @@ import {BackgroundStep} from "@/utils/components/BackgroundStep";
 import {UploadStep} from "@/utils/components/UploadStep";
 import {ProcessingStep} from "@/utils/components/ProcessingStep";
 import {Header} from "@/utils/components/LinkHeader";
+import {restoreUndefined} from "next/dist/server/dev/browser-logs/receive-logs";
 
 
 export type Step = {
@@ -31,18 +32,23 @@ export default function CreateVideoLayout(): JSX.Element {
     const [karaokiRequest, setKaraokiRequest] = useState<KaraokeLifetime>({
         Inputs: {
             Generate: {
-                audioPath: "",
-                backgroundPath: ""
+                audioFile: undefined,
+                audioId: "",
+                backgroundFile: undefined,
+                backgroundId: ""
             },
             Upload: {
                 title: "",
                 description: "",
-                generatedVideoPath: ""
+                generatedVideoUUID: ""
             }
         },
         Outputs: {
             youtubePath: ""
-        }
+        },
+
+        audioPreviewUrl: undefined,
+        backgroundPreviewUrl: undefined,
     });
     const Editor = steps[currentStep].editor;
     const Preview = steps[currentStep].preview;
@@ -63,6 +69,7 @@ export default function CreateVideoLayout(): JSX.Element {
                         onSave = {(updates : PartialKaraokeLifetime) => {
                             setKaraokiRequest((prev) => ({
                                 ...prev,
+                                ...updates,
                                 Inputs: {
                                     Generate: {
                                         ...prev.Inputs.Generate,
@@ -76,7 +83,7 @@ export default function CreateVideoLayout(): JSX.Element {
                                 Outputs: {
                                     ...prev.Outputs,
                                     ...updates.Outputs
-                                }
+                                },
                             }))}}
                         onNext = {() => setCurrentStep((currentStep) => currentStep + 1)}
                     />

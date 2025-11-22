@@ -1,14 +1,18 @@
 
 
 export type GenerationRequest = {
-    audioPath: string;
-    backgroundPath: string;
+    audioFile?: File;
+    audioId: string;
+    backgroundFile?: File;
+    backgroundId: string;
+
 }
 export type UploadRequest = {
     title: string;
     description: string;
-    generatedVideoPath: string;
+    generatedVideoUUID: string;
 }
+
 
 export type KaraokeInputs = {
     Generate: GenerationRequest;
@@ -21,15 +25,20 @@ export type KaraokeOutputs = {
 export type KaraokeLifetime = {
     Inputs: KaraokeInputs;
     Outputs: KaraokeOutputs;
+    audioPreviewUrl?: string;
+    backgroundPreviewUrl?: string;
 }
 
 export type PartialKaraokeInputs = {
     Generate?: Partial<GenerationRequest>;
     Upload?: Partial<UploadRequest>;
+
 }
 export type PartialKaraokeLifetime = Partial<({
     Inputs: PartialKaraokeInputs;
     Outputs: Partial<KaraokeOutputs>;
+    audioPreviewUrl?: string;
+    backgroundPreviewUrl?: string;
 })>;
 
 

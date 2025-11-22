@@ -1,5 +1,4 @@
 // pages/index.js
-import Link from 'next/link';
 import ActivityFeed from "@/utils/components/ActivityFeed";
 
 

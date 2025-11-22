@@ -5,6 +5,7 @@ import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/utils/components/EditorDefinitions";
 import { KaraokeLifetime } from "@/utils/types/KaraokeRequest";
 import {LyricWrapper} from "@/utils/components/LyricWrapperProps";
+import {uploadFile} from "@/utils/clientHttp/uploadFile";
 
 export const BackgroundStep: Step = {
     label: "Background",
@@ -31,25 +32,29 @@ export const BackgroundStep: Step = {
             }
 
             setFile(selectedFile);
-
-            // Generate a temporary URL for preview
-            const url = URL.createObjectURL(selectedFile);
-
             // Save the updates to parent
             onSave({
                 Inputs: {
                     Generate: {
-                        backgroundPath: url
+                        backgroundFile: selectedFile
                     }
                 }
             });
         };
 
-        const handleNext = () => {
+        const handleNext = async () => {
             if (!file) {
                 alert("Please select a background image.");
                 return;
             }
+            const uuid = await uploadFile(file);
+            onSave(({
+                Inputs: {
+                    Generate: {
+                        backgroundId: uuid
+                    }
+                }
+            }))
             onNext();
         };
 
@@ -74,8 +79,10 @@ export const BackgroundStep: Step = {
     },
 
     preview: ({request}: { request : KaraokeLifetime }) => {
-        const bgPath = request.Inputs.Generate.backgroundPath;
-        if (!bgPath) return <p>No background selected yet</p>;
+        if(request.Inputs.Generate.backgroundFile === undefined) return (
+            <p>No background selected yet</p>
+        )
+        const bgPath = URL.createObjectURL(request.Inputs.Generate.backgroundFile!);
         const lyrics = "Your lyrics will appear here";
         return (
             <div className="flex justify-center">
