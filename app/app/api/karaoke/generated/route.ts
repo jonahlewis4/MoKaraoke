@@ -1,8 +1,9 @@
 // app/api/video/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import fs from 'fs';
-import {getFileUrl} from "@/utils/supabase/backendClient";
 import {DEFAULT_BUCKET} from "@/utils/env/envConstants";
+import {getPathOfGenVideo} from "@/utils/supabase/db";
+import {getFileUrl} from "@/utils/supabase/fs";
 
 
 export async function GET(
