@@ -5,28 +5,28 @@ import {useState} from "react";
 import {KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
 import {createKaraokiVideo} from "@/utils/clientHttp/CreateKaraokiVideo";
 import {getDownloadLinkForUuidResource} from "@/utils/clientHttp/getDownloadLinkForUuidResource";
+
 export const ProcessingStep: Step = {
     label: "Processing",
     editor: ({ onNext, onSave, request }: EditorProps) => {
         const [processing, setProcessing] = useState(false);
-        const [candidateVideo, setCandidateVideo] = useState<string | null> (null);
+        const [candidateUuid, setCandidateUuid] = useState<string | null> (null);
         const [saved, setSaved] = useState(false);
         const [thisIsTheFirstAttempt, setThisIsTheFirstAttempt] = useState(true);
 
 
 
         const startProcessing = async () => {
-            setCandidateVideo(null);
+            setCandidateUuid(null);
             setProcessing(true);
 
             try {
-                const result = await createKaraokiVideo(request.Inputs.Generate);
-                const url = getDownloadLinkForUuidResource(result);
-                if(result) {
+                const uuid = await createKaraokiVideo(request.Inputs.Generate);
+                if(uuid) {
                     if(thisIsTheFirstAttempt){
-                        keepResult(result)
+                        keepResult(uuid)
                     } else {
-                        setCandidateVideo(url)
+                        setCandidateUuid(uuid)
                     }
                 }
             } catch (e) {
@@ -47,7 +47,7 @@ export const ProcessingStep: Step = {
             }
 
             setThisIsTheFirstAttempt(false);
-            setCandidateVideo(null);
+            setCandidateUuid(newVideoUUID);
             setSaved(true);
             onSave(updatedRequest);
         }
@@ -89,9 +89,9 @@ export const ProcessingStep: Step = {
                 )}
 
                 {/* RESULT PREVIEW */}
-                {!thisIsTheFirstAttempt && candidateVideo &&  <VideoChoppingBlock
-                    videoUrl={candidateVideo}
-                    onAccept={() => keepResult(candidateVideo)}
+                {!thisIsTheFirstAttempt && candidateUuid &&  <VideoChoppingBlock
+                    videoUrl={getDownloadLinkForUuidResource(candidateUuid)}
+                    onAccept={() => keepResult(candidateUuid)}
                 />}
 
                 {/* NEXT BUTTON */}
@@ -100,7 +100,7 @@ export const ProcessingStep: Step = {
                         onClick={onNext}
                         disabled={!saved || processing}
                         className={`px-4 py-2 rounded ${
-                            !saved || processing || candidateVideo
+                            !saved || processing || candidateUuid
                                 ? "bg-gray-400"
                                 : "bg-purple-600 text-white"
                         }`}
@@ -114,7 +114,12 @@ export const ProcessingStep: Step = {
     preview: ({ request }: { request: KaraokeLifetime }) => {
         const uuid = request.Inputs.Upload.generatedVideoUUID
         const downloadUrl = getDownloadLinkForUuidResource(uuid);
-        return uuid && <video src={downloadUrl} controls className="w-full rounded"/>
+        return uuid && <video
+            src={downloadUrl}
+            controls
+            className="w-full rounded"
+            preload = "auto"
+        />
     },
 };
 
@@ -123,7 +128,12 @@ function VideoChoppingBlock({ videoUrl, onAccept }: { videoUrl: string, onAccept
     {/* RESULT PREVIEW */}
     return <div className="space-y-2">
             <h3 className="font-semibold">Preview</h3>
-            <video src={videoUrl} controls className="w-full rounded"/>
+            <video
+                src={videoUrl}
+                controls
+                preload="auto"
+                className="w-full rounded"
+            />
 
             <div className="flex space-x-2">
                 <button

@@ -1,36 +1,80 @@
-// app/api/download/route.ts
-import {NextRequest, NextResponse} from "next/server";
-import fs from "fs";
-import path from "path";
-import mime from "mime"; // npm install mime
+// app/api/video/[id]/route.ts
+import { NextRequest, NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
 
-export async function GET(req: NextRequest) {
-    const { searchParams } = new URL(req.url);
-    const uuid = searchParams.get("uuid");
+const MOCK_DATA_DIR = path.join(process.cwd(), "public", "mockData");
 
-    if (!uuid) return new Response(JSON.stringify({ error: "Missing uuid" }), { status: 400 });
 
-    const dirPath = path.join(process.cwd(), "public", "mockData");
-    const files = fs.readdirSync(dirPath).filter(f => f.endsWith(".mp4"));
+export async function GET(
+    request: NextRequest,
+) {
+    try {
+        const uuid = request.nextUrl.searchParams.get('uuid');
+        if (!uuid) {
+            return NextResponse.json({error: 'no uuid found'}, {status: 400});
+        }
+        const videoPath = getVideoFileByUuid(uuid);
 
-    if (files.length === 0) {
-        return new NextResponse("No videos found", { status: 404 });
+        // Check if file exists
+        if (!fs.existsSync(videoPath)) {
+            return NextResponse.json({ error: 'Video not found' }, { status: 404 });
+        }
+
+        const stat = fs.statSync(videoPath);
+        const fileSize = stat.size;
+        const range = request.headers.get('range');
+
+        if (range) {
+            // Parse Range header
+            const parts = range.replace(/bytes=/, '').split('-');
+            const start = parseInt(parts[0], 10);
+            const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+            const chunkSize = end - start + 1;
+
+            // Create read stream for the requested range
+            const stream = fs.createReadStream(videoPath, { start, end });
+
+            // Return 206 Partial Content
+            return new NextResponse(stream as any, {
+                status: 206,
+                headers: {
+                    'Content-Range': `bytes ${start}-${end}/${fileSize}`,
+                    'Accept-Ranges': 'bytes',
+                    'Content-Length': chunkSize.toString(),
+                    'Content-Type': 'video/mp4',
+                },
+            });
+        } else {
+            // No range request - send entire file
+            const stream = fs.createReadStream(videoPath);
+
+            return new NextResponse(stream as any, {
+                status: 200,
+                headers: {
+                    'Content-Length': fileSize.toString(),
+                    'Content-Type': 'video/mp4',
+                    'Accept-Ranges': 'bytes',
+                },
+            });
+        }
+    } catch (error) {
+        console.error('Error serving video:', error);
+        return NextResponse.json(
+            { error: 'Internal server error' },
+            { status: 500 }
+        );
     }
+}
 
+function getVideoFileByUuid(uuid: string): string {
+    const files = fs.readdirSync(MOCK_DATA_DIR).filter(f => f.endsWith(".mp4"));
 
-    const randomVideo = files[Math.floor(Math.random() * files.length)];
-    const fullPath = path.join(dirPath, randomVideo);
-    // just return the client-accessible URL
+    // Use UUID as seed for consistent file selection
+    const hash = uuid.split('').reduce((acc, char) => {
+        return ((acc << 5) - acc) + char.charCodeAt(0);
+    }, 0);
 
-    if (!fs.existsSync(fullPath)) return new Response(JSON.stringify({ error: "File not found" }), { status: 404 });
-
-    const fileBuffer = fs.readFileSync(fullPath);
-
-    const mimeType = await mime.getType(fullPath) || "application/octet-stream";
-
-    return new Response(fileBuffer, {
-        headers: {
-            "Content-Type": mimeType,
-        },
-    });
+    const index = Math.abs(hash) % files.length;
+    return path.join(MOCK_DATA_DIR, files[index]);
 }

@@ -7,7 +7,7 @@ export const uploadFile = async (file: File) =>{
         body: form,
     });
 
-    const data = await res.json();
+    const data : string = await res.json();
 
-    return data.uuid;
+    return data;
 }

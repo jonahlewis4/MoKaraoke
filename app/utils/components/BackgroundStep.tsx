@@ -5,7 +5,7 @@ import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/utils/components/EditorDefinitions";
 import { KaraokeLifetime } from "@/utils/types/KaraokeRequest";
 import {LyricWrapper} from "@/utils/components/LyricWrapperProps";
-import {uploadFile} from "@/utils/clientHttp/uploadAudioFile";
+import {uploadFile} from "@/utils/clientHttp/uploadFile";
 
 export const BackgroundStep: Step = {
     label: "Background",
