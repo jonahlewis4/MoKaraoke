@@ -10,7 +10,7 @@ export type GenerationRequest = {
 export type UploadRequest = {
     title: string;
     description: string;
-    generatedVideoPath: string;
+    generatedVideoUUID: string;
 }
 
 

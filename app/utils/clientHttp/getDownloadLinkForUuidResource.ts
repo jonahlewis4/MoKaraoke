@@ -1,0 +1,1 @@
+const getDownloadLinkForUuidResource = (uuid: string) => "/api/download/?uuid=" + uuid;

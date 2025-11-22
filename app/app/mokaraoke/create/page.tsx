@@ -40,7 +40,7 @@ export default function CreateVideoLayout(): JSX.Element {
             Upload: {
                 title: "",
                 description: "",
-                generatedVideoPath: ""
+                generatedVideoUUID: ""
             }
         },
         Outputs: {

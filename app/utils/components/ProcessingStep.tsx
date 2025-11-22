@@ -21,12 +21,12 @@ export const ProcessingStep: Step = {
 
             try {
                 const result = await createKaraokiVideo(request.Inputs.Generate);
-
+                const url = getDownloadLinkForUuidResource(result);
                 if(result) {
                     if(thisIsTheFirstAttempt){
                         keepResult(result)
                     } else {
-                        setCandidateVideo(result)
+                        setCandidateVideo(url)
                     }
                 }
             } catch (e) {
@@ -37,11 +37,11 @@ export const ProcessingStep: Step = {
         }
 
 
-        const keepResult = (newVideoUrl : string) => {
+        const keepResult = (newVideoUUID : string) => {
             const updatedRequest : PartialKaraokeLifetime = {
                 Inputs: {
                     Upload: {
-                        generatedVideoPath: newVideoUrl
+                        generatedVideoUUID: newVideoUUID
                     }
                 }
             }
@@ -112,8 +112,9 @@ export const ProcessingStep: Step = {
         );
     },
     preview: ({ request }: { request: KaraokeLifetime }) => {
-        const path = request.Inputs.Upload.generatedVideoPath
-        return path && <video src={path} controls className="w-full rounded"/>
+        const uuid = request.Inputs.Upload.generatedVideoUUID
+        const downloadUrl = getDownloadLinkForUuidResource(uuid);
+        return uuid && <video src={downloadUrl} controls className="w-full rounded"/>
     },
 };
 
