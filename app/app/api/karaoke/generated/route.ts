@@ -10,6 +10,7 @@ export async function GET(
 ) {
     try {
         const uuid = request.nextUrl.searchParams.get('uuid');
+        console.log("uuid: ", uuid);
         if (!uuid) {
             return NextResponse.json({error: 'no uuid found'}, {status: 400});
         }
@@ -28,7 +29,9 @@ export async function GET(
 
 const getVideoFileByUuid = async (uuid: string) => {
     const path = await getPathOfGenVideo(uuid);
+    console.log("path: ", path);
     const url = await getFileUrl(DEFAULT_BUCKET, path);
+    console.log("url: ", url);
     return url;
 };
 

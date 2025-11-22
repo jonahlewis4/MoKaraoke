@@ -109,7 +109,7 @@ export async function uploadFile(
 
     // 1. Ensure bucket exists
     await ensureBucketExists(bucket, isPublic);
-
+    console.log("Bucket exists:", bucket);
     // 2. Upload file
     const { data, error } = await supabase.storage
         .from(bucket)
@@ -122,4 +122,6 @@ export async function uploadFile(
     if (!data) {
         throw new Error("Upload failed: no data returned.");
     }
+
+    console.log("File uploaded successfully:", data.path);
 }

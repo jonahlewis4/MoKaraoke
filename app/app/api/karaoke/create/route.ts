@@ -20,21 +20,24 @@ const generateVideo = async (input: GenerationRequest) => {
 
     //save map from uuid to file path in db, and store the file in the bucket
     const storagePath = `generated_videos/${randomUUID()}.mp4`; //important that the returend uuid is different from the one in the db
+    console.log("storagePath: ", storagePath);
 
     const file = await getFileByPath(randomFile);
+    console.log("file: ", file);
 
     await savePermaFile(file, storagePath);
-
+    console.log("file saved");
 
     await addGenVideoRow(newUUID, storagePath)
-
+    console.log("row added");
     return newUUID;
 };
 
 export async function GET(request: GenerationRequest) {
     await sleep(2000);
     try {
-        const uuid = generateVideo(request);
+        const uuid = await generateVideo(request);
+        console.log("generated video with uuid: ", uuid);
         return NextResponse.json(uuid);
     }
     catch (e) {
@@ -45,7 +48,7 @@ export async function GET(request: GenerationRequest) {
 function getRandomVideoFile(): string {
     const files = fs.readdirSync(MOCK_DATA_DIR).filter(f => f.endsWith(".mp4"));
 
-    const index = Math.random() * files.length;
+    const index = Math.floor(Math.random() * files.length);
     return path.join(MOCK_DATA_DIR, files[index]);
 }
 async function getFileByPath(filePath: string): Promise<File> {

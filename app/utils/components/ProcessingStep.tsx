@@ -113,6 +113,9 @@ export const ProcessingStep: Step = {
     },
     preview: ({ request }: { request: KaraokeLifetime }) => {
         const uuid = request.Inputs.Upload.generatedVideoUUID
+        if (!uuid) {
+            return <>No video generated yet...</>
+        }
         const downloadUrl = getDownloadLinkForUuidResource(uuid);
         return uuid && <video
             src={downloadUrl}

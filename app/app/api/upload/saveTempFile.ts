@@ -15,5 +15,5 @@ export const saveTempFile = async (file: File) : Promise<string> => {
 }
 
 export const savePermaFile = async (file: File, path : string) => {
-    uploadFile(DEFAULT_BUCKET, path, file)
+    await uploadFile(DEFAULT_BUCKET, path, file)
 };
