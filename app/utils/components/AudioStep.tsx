@@ -9,28 +9,25 @@ const validTypes = ["audio/mpeg", "audio/wav", "audio/mp3"];
 export const AudioStep: Step = {
     label: "Audio",
     editor: ({ onNext, onSave }: EditorProps) => {
-        const [url, setUrl] = React.useState<string | null>(null);
         const [fileName, setFileName] = useState<string | null>(null);
         // Handle file input change
         const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
             if (e.target.files && e.target.files.length > 0) {
-                const newFileUrl = URL.createObjectURL(e.target.files[0]);
-
-                if(!validTypes.includes(e.target.files[0].type)){
+                const f : File = e.target.files[0];
+                if(!validTypes.includes(f.type)){
                     alert("Invalid file type. Please upload an audio file (mp3, wav, mpeg).")
                     return;
                 }
 
-                setUrl(newFileUrl);
-                setFileName(e.target.files[0].name);
+                setFileName(f.name);
                 // Update the parent with the uploaded file path
                 // Here we use file.name as a placeholder path
                 const updates: PartialKaraokeLifetime = {
                     Inputs: {
                         Generate: {
-                            audioPath: newFileUrl
+                            audioFile: f
                         }
-                    }
+                    },
                 };
                 onSave(updates); // update parent state
             }
@@ -38,7 +35,7 @@ export const AudioStep: Step = {
 
         // Handle submit button
         const handleSubmit = () => {
-            if (!url) {
+            if (!fileName) {
                 alert("Please select an audio file");
                 return;
             }
@@ -71,13 +68,15 @@ export const AudioStep: Step = {
     },
 
     preview: ({request}: { request : KaraokeLifetime }) => {
-        const audioPath = request.Inputs.Generate.audioPath;
-        if (!audioPath) return <p>No audio selected yet.</p>;
+        if(!request.Inputs.Generate.audioFile) return (
+            <p>No audio selected yet.</p>
+        )
+        const newFileUrl = URL.createObjectURL(request.Inputs.Generate.audioFile!);
 
         return (
             <div>
                 <p>Preview:</p>
-                <audio controls src={audioPath} className="w-full" style={{ maxWidth: "300px" }} />
+                <audio controls src={newFileUrl} className="w-full" style={{ maxWidth: "300px" }} />
             </div>
         );
     }
