@@ -47,11 +47,11 @@ export const BackgroundStep: Step = {
                 alert("Please select a background image.");
                 return;
             }
-            const uuid = await uploadFile(file);
+            const url = await uploadFile(file);
             onSave(({
                 Inputs: {
                     Generate: {
-                        backgroundId: uuid
+                        backgroundUrl: url
                     }
                 }
             }))

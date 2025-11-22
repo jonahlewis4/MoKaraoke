@@ -42,11 +42,11 @@ export const AudioStep: Step = {
             }
 
 
-            const uuid = await uploadFile(file);
+            const audioUrl = await uploadFile(file);
             onSave({
                 Inputs: {
                     Generate: {
-                        audioId: uuid
+                        audioUrl: audioUrl
                     }
                 }
             })

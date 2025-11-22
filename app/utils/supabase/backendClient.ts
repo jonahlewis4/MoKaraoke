@@ -1,10 +1,15 @@
 // backend/supabaseClient.ts
 import { createClient } from "@supabase/supabase-js";
 import {SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL} from "@/utils/env/envConstants";
+import path from "path";
 
 const supabaseUrl = SUPABASE_URL!;
 const supabaseKey = SUPABASE_SERVICE_ROLE_KEY!; // SERVICE KEY for server only
 export const supabase = createClient(supabaseUrl, supabaseKey);
+
+
+
+
 
 /**
  * Ensures the bucket exists; if not, creates it.
@@ -33,10 +38,18 @@ async function ensureBucketExists(bucket: string, isPublic = false) {
 export async function uploadFileAndGetSignedUrl(
     bucket: string,
     filePath: string,
-    fileBuffer: Buffer,
+    file: File,
     expiresInSec = 3600, // default 1 hour
     isPublic = false
 ): Promise<string> {
+    async function fileToBuffer(file: File): Promise<Buffer> {
+        const arrayBuffer = await file.arrayBuffer(); // File -> ArrayBuffer
+        return Buffer.from(arrayBuffer);              // ArrayBuffer -> Node.js Buffer
+    }
+
+    const fileBuffer = await fileToBuffer(file)
+
+
     // Step 1: Ensure bucket exists
     await ensureBucketExists(bucket, isPublic);
 
@@ -62,4 +75,16 @@ export async function uploadFileAndGetSignedUrl(
         if (signedError || !signedData) throw new Error(`Failed to create signed URL: ${signedError?.message}`);
         return signedData.signedUrl;
     }
+}
+
+export async function getFileUrl(bucket: string, filePath: string): Promise<string> {
+    const { data, error } = await supabase.storage
+        .from(bucket)
+        .createSignedUrl(filePath, 60 * 60); // 1 hour
+
+    if (error || !data) {
+        throw new Error(error?.message || "Failed to create signed URL");
+    }
+
+    return data.signedUrl;
 }

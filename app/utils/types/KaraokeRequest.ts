@@ -2,9 +2,9 @@
 
 export type GenerationRequest = {
     audioFile?: File;
-    audioId: string;
+    audioUrl: string;
     backgroundFile?: File;
-    backgroundId: string;
+    backgroundUrl: string;
 
 }
 export type UploadRequest = {
