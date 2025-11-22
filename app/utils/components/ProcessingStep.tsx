@@ -47,7 +47,7 @@ export const ProcessingStep: Step = {
             }
 
             setThisIsTheFirstAttempt(false);
-            setCandidateUuid(newVideoUUID);
+            setCandidateUuid(null);
             setSaved(true);
             onSave(updatedRequest);
         }
