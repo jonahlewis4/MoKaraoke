@@ -47,15 +47,23 @@ export const BackgroundStep: Step = {
                 alert("Please select a background image.");
                 return;
             }
-            const url = await uploadFile(file);
-            onSave(({
-                Inputs: {
-                    Generate: {
-                        backgroundUrl: url
-                    }
-                }
-            }))
-            onNext();
+            try {
+                const url = await uploadFile(file);
+
+                onSave({
+                    Inputs: {
+                        Generate: {
+                            backgroundUrl: url,
+                        },
+                    },
+                });
+
+                onNext();
+            } catch (err) {
+                console.error(err);
+                alert(`Failed to upload file: ${err instanceof Error ? err.message : err}`);
+            }
+
         };
 
         return (

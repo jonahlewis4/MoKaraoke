@@ -1,2 +1,2 @@
 run:
-	docker compose up
+	docker compose -f docker-compose.yml -f docker-compose.s3.yml up
