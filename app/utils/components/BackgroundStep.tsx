@@ -5,6 +5,7 @@ import { Step } from "@/app/mokaraoke/create/page";
 import { EditorProps } from "@/utils/components/EditorDefinitions";
 import { KaraokeLifetime } from "@/utils/types/KaraokeRequest";
 import {LyricWrapper} from "@/utils/components/LyricWrapperProps";
+import {uploadFile} from "@/utils/clientHttp/uploadAudioFile";
 
 export const BackgroundStep: Step = {
     label: "Background",
@@ -41,11 +42,19 @@ export const BackgroundStep: Step = {
             });
         };
 
-        const handleNext = () => {
+        const handleNext = async () => {
             if (!file) {
                 alert("Please select a background image.");
                 return;
             }
+            const uuid = await uploadFile(file);
+            onSave(({
+                Inputs: {
+                    Generate: {
+                        backgroundId: uuid
+                    }
+                }
+            }))
             onNext();
         };
 

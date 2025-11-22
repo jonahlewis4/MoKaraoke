@@ -13,7 +13,12 @@ export async function POST(req: NextRequest) {
         }
 
         // Convert file → buffer
+        const validTypes = ["image/jpeg", "image/png", "image/gif" ,"audio/mpeg", "audio/wav", "audio/mp3"];
+        const maxSize = 5 * 1024 * 1024; // 5 MB
 
+        if (!validTypes.includes(file.type)) {
+            return NextResponse.json({ error: "Invalid file type! Only JPEG, PNG, GIF, mp3, wav or mpeg allowed." }, { status: 400 });
+        }
         const uuid = saveFile(file);
 
 
