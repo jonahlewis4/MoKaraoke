@@ -4,6 +4,7 @@ import {EditorProps} from "@/utils/components/EditorDefinitions";
 import React, {useEffect, useState} from "react";
 import {KaraokeLifetime} from "@/utils/types/KaraokeRequest";
 import {uploadToYoutube} from "@/utils/clientHttp/UploadToYoutube";
+import {getDownloadLinkForUuidResource} from "@/utils/clientHttp/getDownloadLinkForUuidResource";
 
 export const UploadStep: Step = {
     label: "Upload",
@@ -120,7 +121,10 @@ export const UploadStep: Step = {
         );
     },
     preview: ({ request }: { request: KaraokeLifetime }) => {
-        const previewPath = request.Inputs.Upload.generatedVideoPath;
+        if(!request.Inputs.Upload.generatedVideoUUID) return (
+            <p>Error.</p>
+        )
+        const previewPath = getDownloadLinkForUuidResource(request.Inputs.Upload.generatedVideoUUID!);
         const title = request.Inputs.Upload.title;
         const description = request.Inputs.Upload.description;
         return (

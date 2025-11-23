@@ -3,13 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import {Header} from "@/utils/components/LinkHeader";
-import {getAllUploadedVideos} from "@/utils/supabase/db";
 import {SanitizedVideo} from "@/app/api/karaoke/generated/all/route";
+import {getUploadedVideos} from "@/utils/clientHttp/getUploadedVideos";
 
 // ❗ Replace with a real API call later
 // ❗ Replace with a real API call later
 async function fetchSavedKaraoke(): Promise<SanitizedVideo[]> {
-    return await getAllUploadedVideos();
+    return await getUploadedVideos();
 }
 
 

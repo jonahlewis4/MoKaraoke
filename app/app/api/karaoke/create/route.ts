@@ -9,14 +9,16 @@ import {savePermaFile} from "@/app/api/upload/saveTempFile";
 import { readFile } from 'fs/promises';
 import { basename } from 'path';
 import {addGenVideoRow} from "@/utils/supabase/db";
+import {getVideoFileFromUUID} from "@/app/api/karaoke/create/mockData";
 const MOCK_DATA_DIR = path.join(process.cwd(), "public", "mockData");
 
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 const generateVideo = async (input: GenerationRequest) => {
-    const randomFile = getRandomVideoFile();
     const newUUID = randomUUID();
+
+    const randomFile = getVideoFileFromUUID(newUUID);
 
     //save map from uuid to file path in db, and store the file in the bucket
     const storagePath = `generated_videos/${randomUUID()}.mp4`; //important that the returend uuid is different from the one in the db
@@ -45,7 +47,7 @@ export async function GET(request: GenerationRequest) {
         return NextResponse.json({ error: e }, { status: 400 });    }
 }
 
-function getRandomVideoFile(): string {
+function getRandomVideoFile(uuid: string): string {
     const files = fs.readdirSync(MOCK_DATA_DIR).filter(f => f.endsWith(".mp4"));
 
     const index = Math.floor(Math.random() * files.length);

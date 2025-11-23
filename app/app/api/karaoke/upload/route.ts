@@ -6,6 +6,7 @@ import {request} from "node:http";
 import {UploadRequest} from "@/utils/types/KaraokeRequest";
 import {uploadToYoutube} from "@/utils/clientHttp/UploadToYoutube";
 import {updateTitleAndUrl} from "@/utils/supabase/db";
+import {getYoutubeLinkFromUUID} from "@/app/api/karaoke/create/mockData";
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -26,5 +27,6 @@ const uploadAndSave = async (input : UploadRequest) => {
 };
 
 const upload = async (input : UploadRequest)=> {
-    return "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    const link = getYoutubeLinkFromUUID(input.generatedVideoUUID!);
+    return link;
 }
