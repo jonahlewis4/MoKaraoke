@@ -1,3 +1,4 @@
+"use client"
 import {useEffect, useState} from "react";
 import {getAllUploadedVideos} from "@/utils/supabase/db";
 import {SanitizedVideo} from "@/app/api/karaoke/generated/all/route";
