@@ -20,4 +20,5 @@ export type SanitizedVideo = {
     uuid: string;
     title: string;
     youtubeUrl: string;
+    created_at: string;
 }

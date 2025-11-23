@@ -61,7 +61,7 @@ export async function updateTitleAndUrl(
 export async function getAllUploadedVideos(): Promise<SanitizedVideo[]> {
     const { data, error } = await supabase
         .from('videos')
-        .select('uuid, title, youtubeUrl')
+        .select('uuid, title, youtubeUrl, created_at')
         .not('youtubeUrl', 'is', null);
 
     if (error) throw error

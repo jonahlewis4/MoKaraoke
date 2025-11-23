@@ -18,10 +18,19 @@ export default function GalleryPage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetchSavedKaraoke().then(data => {
-            setItems(data);
-            setLoading(false);
-        });
+        const loadData = async () => {
+            try {
+                const data = await fetchSavedKaraoke();
+                data.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+                setItems(data);
+            } catch (error) {
+                console.error('Failed to fetch karaoke:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        loadData();
     }, []);
 
     return (
