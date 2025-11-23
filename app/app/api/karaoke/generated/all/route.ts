@@ -1,11 +1,11 @@
 import {NextRequest, NextResponse} from "next/server";
-import {getAllVideos} from "@/utils/supabase/db";
+import {getAllUploadedVideos} from "@/utils/supabase/db";
 
 export async function GET(
     request: NextRequest,
 ) {
     try {
-        const videos: SanitizedVideo[] = await getAllVideos();
+        const videos: SanitizedVideo[] = await getAllUploadedVideos();
         return NextResponse.json(videos);
     } catch (error) {
         console.error('Error serving getting videos: ', error);

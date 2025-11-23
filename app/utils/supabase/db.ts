@@ -58,10 +58,11 @@ export async function updateTitleAndUrl(
     return data;
 }
 
-export async function getAllVideos(): Promise<SanitizedVideo[]> {
+export async function getAllUploadedVideos(): Promise<SanitizedVideo[]> {
     const { data, error } = await supabase
         .from('videos')
         .select('uuid, title, youtubeUrl')
+        .not('youtubeUrl', 'is', null);
 
     if (error) throw error
     return data || []
