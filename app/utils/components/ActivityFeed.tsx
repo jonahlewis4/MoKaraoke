@@ -100,7 +100,9 @@ const ActivityFeed = () => {
                         {/* Text Content */}
                         <div>
                             <p className="text-gray-900 font-semibold">
-                                <span className="text-blue-600">{a.video.title}</span> {a.action}
+                                <a  href = {a.video.youtubeUrl} target="_blank" rel="noopener noreferrer"
+                                    className="text-blue-600 underline" >{a.video.title}
+                                </a> {a.action}
                             </p>
                             <p className="text-gray-500 text-sm mt-1">{a.time}</p>
                         </div>
