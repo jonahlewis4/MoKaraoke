@@ -1,4 +1,5 @@
 import {supabase} from "@/utils/supabase/fs";
+import {SanitizedVideo} from "@/app/api/karaoke/generated/all/route";
 
 export async function getPathOfGenVideo(uuid: string): Promise<string> {
     console.log("Getting path of gen video for uuid:", uuid);
@@ -53,5 +54,15 @@ export async function updateTitleAndUrl(
         throw new Error(`Failed to update video: ${error.message}`);
     }
 
+
     return data;
+}
+
+export async function getAllVideos(): Promise<SanitizedVideo[]> {
+    const { data, error } = await supabase
+        .from('videos')
+        .select('uuid, title, youtubeUrl')
+
+    if (error) throw error
+    return data || []
 }
