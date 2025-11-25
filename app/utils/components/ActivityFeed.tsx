@@ -91,7 +91,7 @@ const ActivityFeed = () => {
                     >
                         {/* Video Thumbnail - extract from YouTube URL */}
                         <img
-                            src={`https://img.youtube.com/vi/${extractYouTubeId(a.video.youtubeUrl)}/hqdefault.jpg`}
+                            src={`https://img.youtube.com/vi/${extractYouTubeId(a.video.youtubeurl)}/hqdefault.jpg`}
                             alt={a.video.title}
                             className="w-32 h-18 object-cover rounded border-2 border-gray-900"
                         />
@@ -99,8 +99,8 @@ const ActivityFeed = () => {
                         {/* Text Content */}
                         <div>
                             <p className="text-gray-900 font-semibold">
-                                <a  href = {a.video.youtubeUrl} target="_blank" rel="noopener noreferrer"
-                                    className="text-blue-600 underline" >{a.video.title}
+                                <a href = {a.video.youtubeurl} target="_blank" rel="noopener noreferrer"
+                                   className="text-blue-600 underline" >{a.video.title}
                                 </a> {a.action}
                             </p>
                             <p className="text-gray-500 text-sm mt-1">{a.time}</p>

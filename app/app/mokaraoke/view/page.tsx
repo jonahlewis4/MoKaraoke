@@ -56,7 +56,7 @@ export default function GalleryPage() {
 }
 
 function KaraokeCard({ data }: { data: SanitizedVideo }) {
-    const embedUrl = convertYouTubeUrlToEmbed(data.youtubeUrl);
+    const embedUrl = convertYouTubeUrlToEmbed(data.youtubeurl);
 
     return (
         <div className="bg-white rounded-xl shadow p-4 flex flex-col">

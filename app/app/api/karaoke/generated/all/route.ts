@@ -19,6 +19,6 @@ export async function GET(
 export type SanitizedVideo = {
     uuid: string;
     title: string;
-    youtubeUrl: string;
+    youtubeurl: string;
     created_at: string;
 }
