@@ -81,6 +81,8 @@
 
 4. **Database Access**: Users have direct access to the Supabase database interface with the default credentials.
 
+5. **Environment**: The application is ran on a unix-based system. (It may work on Windows, but has not been tested)
+
 ### Limitations
 
 1. **Security**:
