@@ -2,7 +2,7 @@
 
 ## What This Application Does
 
-**Mokarake** is a web application that allows users to create karaoke videos by uploading an audio file and a background image. The app generates a karaoke-style video combining the user's audio with their chosen background image.
+**Karaoke** is a web application that allows users to create karaoke videos by uploading an audio file and a background image. The app generates a karaoke-style video combining the user's audio with their chosen background image.
 
 ## How to Set It Up and Run It
 
