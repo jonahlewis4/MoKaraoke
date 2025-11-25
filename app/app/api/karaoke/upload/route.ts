@@ -1,32 +1,24 @@
 // app/api/karaoke/upload/route.ts
-import fs from "fs";
-import path from "path";
-import { NextResponse } from "next/server";
-import {request} from "node:http";
+import {NextResponse} from "next/server";
 import {UploadRequest} from "@/utils/types/KaraokeRequest";
-import {uploadToYoutube} from "@/utils/clientHttp/UploadToYoutube";
 import {updateTitleAndUrl} from "@/utils/supabase/db";
 import {getYoutubeLinkFromUUID} from "@/app/api/karaoke/create/mockData";
 
-const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export async function POST(request: Request): Promise<NextResponse> {
+    const uploadRequest: UploadRequest = await request.json();
 
-export async function POST(request: Request) {
+    const url : string = await uploadAndSave(uploadRequest);
 
-    const uploadRequest : UploadRequest = await request.json();
-
-    const url = await uploadAndSave(uploadRequest);
-
-    return NextResponse.json({ youtubePath: url }); //some random youtube link for now
+    return NextResponse.json({ youtubePath: url });
 }
 
-const uploadAndSave = async (input : UploadRequest) => {
-    //get the url for the requested file
-    const url = await upload(input)
+const uploadAndSave = async (input: UploadRequest): Promise<string> => {
+    // Get the url for the requested file
+    const url : string = await upload(input);
     await updateTitleAndUrl(input.generatedVideoUUID!, url, input.title);
     return url;
 };
 
-const upload = async (input : UploadRequest)=> {
-    const link = getYoutubeLinkFromUUID(input.generatedVideoUUID!);
-    return link;
-}
+const upload = async (input: UploadRequest): Promise<string> => {
+    return getYoutubeLinkFromUUID(input.generatedVideoUUID!);
+};

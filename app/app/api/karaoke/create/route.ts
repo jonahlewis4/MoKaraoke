@@ -1,21 +1,18 @@
 // app/api/karaoke/upload/create.ts
-import fs from "fs";
 import path from "path";
 import { NextResponse } from "next/server";
 import {randomUUID} from "node:crypto";
-import {GenerationRequest} from "@/utils/types/KaraokeRequest";
-import {uuid} from "@supabase/supabase-js/src/lib/helpers";
 import {savePermaFile} from "@/app/api/upload/saveTempFile";
 import { readFile } from 'fs/promises';
 import { basename } from 'path';
 import {addGenVideoRow} from "@/utils/supabase/db";
 import {getVideoFileFromUUID} from "@/app/api/karaoke/create/mockData";
-const MOCK_DATA_DIR = path.join(process.cwd(), "public", "mockData");
+path.join(process.cwd(), "public", "mockData");
 
 
 const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
-const generateVideo = async (input: GenerationRequest) => {
+const generateVideo = async () => {
     const newUUID = randomUUID();
 
     const randomFile = getVideoFileFromUUID(newUUID);
@@ -35,10 +32,10 @@ const generateVideo = async (input: GenerationRequest) => {
     return newUUID;
 };
 
-export async function GET(request: GenerationRequest) {
+export async function GET() {
     await sleep(2000);
     try {
-        const uuid = await generateVideo(request);
+        const uuid = await generateVideo();
         console.log("generated video with uuid: ", uuid);
         return NextResponse.json(uuid);
     }
@@ -47,12 +44,6 @@ export async function GET(request: GenerationRequest) {
         return NextResponse.json({ error: e }, { status: 400 });    }
 }
 
-function getRandomVideoFile(uuid: string): string {
-    const files = fs.readdirSync(MOCK_DATA_DIR).filter(f => f.endsWith(".mp4"));
-
-    const index = Math.floor(Math.random() * files.length);
-    return path.join(MOCK_DATA_DIR, files[index]);
-}
 async function getFileByPath(filePath: string): Promise<File> {
     const buffer = await readFile(filePath);
     const fileName = basename(filePath);

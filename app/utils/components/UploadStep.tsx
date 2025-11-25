@@ -1,7 +1,7 @@
 "use client"
 import {Step} from "@/app/mokaraoke/create/page";
 import {EditorProps} from "@/utils/components/EditorDefinitions";
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {KaraokeLifetime} from "@/utils/types/KaraokeRequest";
 import {uploadToYoutube} from "@/utils/clientHttp/UploadToYoutube";
 import {getDownloadLinkForUuidResource} from "@/utils/clientHttp/getDownloadLinkForUuidResource";

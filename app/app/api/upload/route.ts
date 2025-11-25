@@ -1,10 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile } from "fs/promises";
-import path from "path";
 import {saveTempFile} from "@/app/api/upload/saveTempFile";
-import {DEFAULT_BUCKET} from "@/utils/env/envConstants";
-import fs from "fs";
-import {randomUUID} from "node:crypto";
 
 export async function POST(req: NextRequest) {
     try {
@@ -17,7 +12,7 @@ export async function POST(req: NextRequest) {
 
         // Convert file → buffer
         const validTypes = ["image/jpeg", "image/png", "image/gif" ,"audio/mpeg", "audio/wav", "audio/mp3"];
-        const maxSize = 5 * 1024 * 1024; // 5 MB
+         // 5 MB
 
         if (!validTypes.includes(file.type)) {
             return NextResponse.json({ error: "Invalid file type! Only JPEG, PNG, GIF, mp3, wav or mpeg allowed." }, { status: 400 });
@@ -25,7 +20,7 @@ export async function POST(req: NextRequest) {
 
         const tempUrl = await saveTempFile(file);
         return NextResponse.json(tempUrl);
-    } catch (err: any) {
-        return NextResponse.json({ error: err.message }, { status: 500 });
+    } catch (e) {
+        return NextResponse.json({ error: e }, { status: 500 });
     }
 }

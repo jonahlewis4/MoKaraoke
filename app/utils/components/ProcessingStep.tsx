@@ -8,7 +8,7 @@ import {getDownloadLinkForUuidResource} from "@/utils/clientHttp/getDownloadLink
 
 export const ProcessingStep: Step = {
     label: "Processing",
-    editor: ({ onNext, onSave, request }: EditorProps) => {
+    editor: ({ onNext, onSave }: EditorProps) => {
         const [processing, setProcessing] = useState(false);
         const [candidateUuid, setCandidateUuid] = useState<string | null> (null);
         const [saved, setSaved] = useState(false);
@@ -21,7 +21,7 @@ export const ProcessingStep: Step = {
             setProcessing(true);
 
             try {
-                const uuid = await createKaraokiVideo(request.Inputs.Generate);
+                const uuid = await createKaraokiVideo();
                 if(uuid) {
                     if(thisIsTheFirstAttempt){
                         keepResult(uuid)

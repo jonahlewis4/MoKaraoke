@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import {Header} from "@/utils/components/LinkHeader";
 import {SanitizedVideo} from "@/app/api/karaoke/generated/all/route";
 import {getUploadedVideos} from "@/utils/clientHttp/getUploadedVideos";

@@ -1,7 +1,5 @@
-import {GenerationRequest} from "@/utils/types/KaraokeRequest";
-
 //simulation of a backend call
-export const createKaraokiVideo = async (input : GenerationRequest) : Promise<string> => {
+export const createKaraokiVideo = async () : Promise<string> => {
     const response = await fetch("/api/karaoke/create");
     const data : string = await response.json();
     return data;

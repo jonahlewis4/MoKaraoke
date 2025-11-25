@@ -1,8 +1,8 @@
-import {NextRequest, NextResponse} from "next/server";
+import {NextResponse} from "next/server";
 import {getAllUploadedVideos} from "@/utils/supabase/db";
 
 export async function GET(
-    request: NextRequest,
+
 ) {
     try {
         const videos: SanitizedVideo[] = await getAllUploadedVideos();

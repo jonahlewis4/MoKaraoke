@@ -1,7 +1,6 @@
 // backend/supabaseClient.ts
 import { createClient } from "@supabase/supabase-js";
 import {SUPABASE_SERVICE_ROLE_KEY, SUPABASE_URL} from "@/utils/env/envConstants";
-import path from "path";
 
 const supabaseUrl = SUPABASE_URL!;
 const supabaseKey = SUPABASE_SERVICE_ROLE_KEY!; // SERVICE KEY for server only

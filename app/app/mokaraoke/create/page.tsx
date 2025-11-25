@@ -1,7 +1,6 @@
 "use client";
 
 import React, {ComponentType, JSX, useState} from "react";
-import Link from "next/link";
 import Stepper from "@/utils/components/Stepper";
 import {EditorComponent} from "@/utils/components/EditorDefinitions";
 import {downloadKInputs, KaraokeLifetime, PartialKaraokeLifetime} from "@/utils/types/KaraokeRequest";
@@ -10,7 +9,6 @@ import {BackgroundStep} from "@/utils/components/BackgroundStep";
 import {UploadStep} from "@/utils/components/UploadStep";
 import {ProcessingStep} from "@/utils/components/ProcessingStep";
 import {Header} from "@/utils/components/LinkHeader";
-import {restoreUndefined} from "next/dist/server/dev/browser-logs/receive-logs";
 
 
 export type Step = {

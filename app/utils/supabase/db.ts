@@ -24,7 +24,7 @@ export async function addGenVideoRow(uuid: string, fspath: string): Promise<void
             uuid,
             fspath,
             title: null,
-            youtubeUrl: null
+            youtubeurl: null
         });
 
     if (error) {
@@ -39,7 +39,7 @@ export async function updateTitleAndUrl(
     uuid: string,
     youtubeUrl: string,
     title: string
-) {
+) :Promise<void> {
     const { data, error } = await supabase
         .from('videos')
         .update({
@@ -53,9 +53,6 @@ export async function updateTitleAndUrl(
         console.error('Error updating video:', error);
         throw new Error(`Failed to update video: ${error.message}`);
     }
-
-
-    return data;
 }
 
 export async function getAllUploadedVideos(): Promise<SanitizedVideo[]> {
