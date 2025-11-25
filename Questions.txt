@@ -17,4 +17,5 @@
 
     1. I'd like to add more authentication and user management features to the app.
     2. I'd like to actually implement the karaoke video creation feature.
-    3. I'd like to add the ability to update video titles and descriptions once they've been uploaded.
+    3. I'd like to add the ability to update video titles and descriptions once they've been uploaded. (didn't get around to doing this)
+    4. Delete functionality for videos. (didn't get around to doing this)
