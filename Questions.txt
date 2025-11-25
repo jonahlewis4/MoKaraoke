@@ -4,6 +4,7 @@
 2. What is the function + connection?
     The app's function is to create a karaoke video from an inputted audio file and background image.
     The connection is to allow users to upload their Generated Karaoke videos to youtube.
+    I've also integrated a Supabase fileserver and database to store the uploaded videos, as well as the files used to generate the videos.
 
 3. Why did you choose to make the product?
     I chose to make this product because there are many aleternative / underground songs out there.
