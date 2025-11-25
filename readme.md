@@ -24,6 +24,7 @@
    ```bash
    make
    ```
+   (This may take a few minutes to complete)
 
 3. Access the database interface in your browser at `http://localhost:8000`
     - **Username**: `supabase`
@@ -45,7 +46,11 @@
    npm install
    ```
 
-3. Start the application:
+3. build the application:
+   ```bash
+   npm run build
+   ```
+4.Start the application:
    ```bash
    npm start
    ```
