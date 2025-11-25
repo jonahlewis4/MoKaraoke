@@ -24,7 +24,7 @@
    ```bash
    make
    ```
-   (This may take a few minutes to complete)
+   (This may take a few minutes to complete. You'll know it's done when it slows down, and you mostly just see logging messages)
 
 3. Access the database interface in your browser at `http://localhost:8000`
     - **Username**: `supabase`
