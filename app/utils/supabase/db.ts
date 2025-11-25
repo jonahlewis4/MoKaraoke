@@ -37,13 +37,13 @@ export async function addGenVideoRow(uuid: string, fspath: string): Promise<void
 
 export async function updateTitleAndUrl(
     uuid: string,
-    youtubeUrl: string,
+    youtubeurl: string,
     title: string
 ) :Promise<void> {
     const { data, error } = await supabase
         .from('videos')
         .update({
-            youtubeUrl: youtubeUrl,
+            youtubeurl: youtubeurl,
             title: title
         })
         .eq('uuid', uuid)
@@ -58,8 +58,8 @@ export async function updateTitleAndUrl(
 export async function getAllUploadedVideos(): Promise<SanitizedVideo[]> {
     const { data, error } = await supabase
         .from('videos')
-        .select('uuid, title, youtubeUrl, created_at')
-        .not('youtubeUrl', 'is', null);
+        .select('uuid, title, youtubeurl, created_at')
+        .not('youtubeurl', 'is', null);
 
     if (error) throw error
     return data || []
