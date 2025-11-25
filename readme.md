@@ -15,7 +15,7 @@
 
 #### Step 1: Set Up the Database
 
-1. Navigate to the Docker directory:
+1. Navigate to the Docker directory (This will start the Supabase database):
    ```bash
    cd docker
    ```
